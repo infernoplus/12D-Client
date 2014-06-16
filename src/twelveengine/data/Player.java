@@ -166,7 +166,8 @@ public class Player {
 		else if(!input.keyboard[toggleConsole] && pressed[toggleConsole])
 			pressed[toggleConsole] = false;
 		
-		if(input.keyboard[info] && !pressed[info]) {
+		/**Keybinds for some testing stuff, just uncomment and give it functions if you want to test something by binding it to a key**/
+		/*if(input.keyboard[info] && !pressed[info]) {
 			if(pawn != null) {
 				Actor a = game.createTag("item/weapon/test/test.hitscan", -1, MathUtil.add(pawn.location, new Vertex(0,0,pawn.eye)), pawn.look, new Quat());
 				game.addActor(a);
@@ -186,7 +187,8 @@ public class Player {
 			pressed[test] = true;
 		}
 		else if(!input.keyboard[test] && pressed[test])
-			pressed[test] = false;
+			pressed[test] = false;*/
+		
 		if(input.keyboard[jump] && !pressed[jump]) {
 			jump();
 			pressed[jump] = true;

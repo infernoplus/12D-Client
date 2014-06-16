@@ -14,6 +14,9 @@ property friction 1.0;
 
 property maxhealth 100;
 
+property reach 6;
+property toss 25;
+
 object collision {
 	object 0 {
 		property parent root;

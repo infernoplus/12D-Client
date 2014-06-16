@@ -64,7 +64,7 @@ public class EffectEvent {
 	//TODO: maybe a switch lel
 	public void trigger() {
 		if(type == 0) {
-			particles.playEffect();
+			particles.playParticleSystem();
 		}
 		else if(type == 1) {
 			sound.playSound();

@@ -51,18 +51,4 @@ public class RigidBody extends Physical {
 		velocity = new Vertex(v.x, v.y, v.z);
 	}
 	
-	public void draw(ArrayList<TrianglePacket> meshes, float f) {	
-		Vertex l = MathUtil.lerp(lastLocation, location, f);
-		Quat r = rotation;
-		if(animations != null)
-			model.pushToDrawQueue(meshes, l, r, MathUtil.interpolateFrame(animation.frames[lastFrame], animation.frames[frame], f), scale);
-		else
-			model.pushToDrawQueue(meshes, l, r, scale);
-		int i = 0;
-		while(i < effects.size()) {
-			effects.get(i).draw(meshes, f);
-			i++;
-		}
-	}
-	
 }

@@ -19,7 +19,7 @@ import twelveutil.*;
 
 //TODO: OPTIMIZE FUCKING EVERYTHING, ESPECIALLY SHADERS
 
-//TODO: Rigged collision models, make an exporter and importer for basically boxes that are linked to frames in a PhysModel ~
+//TODO: [NEED TEST ANIMATIONS TO IMPLEMENT THIS]Rigged collision models, make an exporter and importer for basically boxes that are linked to frames in a PhysModel ~ 
 
 //TODO: I generally dislike the static camera properties tran and rot. Maybe redo that shiz.
 
@@ -39,7 +39,7 @@ import twelveutil.*;
 
 //TODO: UI TEXT RENDERING NEEDS A TRUE LIBRARY THAT USES REAL FONTS. CURRENT ONE IS A BAD JOKE
 
-//TODO: Ragdolls, and importing custom physics meshes.
+//TODO: ragdolls and complex physics objects are a luxary, don't worry about them
 
 //TODO: GRAPHICS SETTINGS, NEED THOSE. WILL JUST HAVE FLAGS FOR DIFFERENT QUALITIES THAT CAUSE SHADER TO USE LESS NICE CODE (LIKE USING VERTEX SHADING n SHIT) AND LESS SHADOWS OR NO SHADOWS N SHIT
 
@@ -47,7 +47,7 @@ import twelveutil.*;
 
 //TODO: CHANGE THE ABCD SCALAR SYSTEM TO AN ARRAY OF FLOATS AND MAKE SHADER AUTO GENERATE AND SET UP SCALARS FROM A-Z OR BY NUMBERS
 
-//TODO: SYSTEM TO EITHER STATICLY HARDCODED "FALLBACK ASSETS" OR A STATIC FALLBACK CLASS THAT HAS A CONFIG FILE THAT LISTS WHERE THEY ARE
+//TODO: SYSTEM TO EITHER STATICLY HARDCODE "FALLBACK ASSETS" OR A STATIC FALLBACK CLASS THAT HAS A CONFIG FILE THAT LISTS WHERE THEY ARE
 
 //TODO: SCALAR INTERACTIONS WITH UI SHADERS. EITHER MOVE TO A MULTIPLE SHADER SYSTEM OR MAKE THIS BETTER!
 
@@ -160,7 +160,7 @@ public class Engine {
 				currentTime = getTime();
 				if (currentTime - lastNet >= Game.netTime) {
 					network.step();
-					game.netStep(); //TODO: ordering... recieve before sending or sending before recieving. WHO KNOWS!
+					game.netStep();
 		        	lastNet = currentTime;
 				}
 			}

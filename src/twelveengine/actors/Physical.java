@@ -1,5 +1,7 @@
 package twelveengine.actors;
 
+import java.util.ArrayList;
+
 import javax.vecmath.*;
 
 import com.bulletphysics.collision.shapes.*;
@@ -9,7 +11,6 @@ import twelveengine.Game;
 import twelveengine.data.*;
 import twelveengine.graphics.*;
 import twelveengine.physics.BulletRigidBody;
-
 import twelveutil.*;
 
 public class Physical extends Actor {
@@ -42,7 +43,7 @@ public class Physical extends Actor {
 		scale = tag.getProperty("scale", 1f);
 		mass = tag.getProperty("mass", 1f);
 		
-		model = game.getModelGroup(tag.getProperty("model", "multipurpose/model/box.model")); //TODO: change these defaults when i redo asset folders structure
+		model = game.getModelGroup(tag.getProperty("model", "multipurpose/model/box.model"));
 		collision = buildCollisionShape(tag.getObject("collision"));
 		
 		createHitboxObject();
@@ -153,7 +154,6 @@ public class Physical extends Actor {
 	}
 	
 
-	//TODO: fuck this shit.... fix it in rigidbody as well
 	public void move(Vertex a) {
 		physics.translate(new Vector3f(a.x, a.y, a.z));
 		physics.activate();
@@ -163,7 +163,7 @@ public class Physical extends Actor {
 	
 	public void rotate(Quat a) {
 		Quat4f q = physics.getOrientation(new Quat4f());
-		//TODO: ....
+		//TODO: IDR how to rotate a rotation...
 	}
 	
 	public void push(Vertex a) {
@@ -186,7 +186,12 @@ public class Physical extends Actor {
 	}
 	
 	public void setRotation(Quat a) {
-		//TODO:. ...
+		Transform tr = new Transform();
+		tr = physics.getCenterOfMassTransform(tr);
+		tr.setRotation(new Quat4f(a.x, a.y, a.z, a.w));
+		physics.setCenterOfMassTransform(tr);
+		Quat4f q = physics.getOrientation(new Quat4f());
+		rotation = new Quat(q.x, q.y, q.z, q.w);
 	}
 	
 	public void setVelocity(Vertex a) {
@@ -235,5 +240,18 @@ public class Physical extends Actor {
 	public void setScale(float f) { //TODO: collision
 		scale = f;
 	}
-	//TODO: standardize draw to physical maybe?
+
+	public void draw(ArrayList<TrianglePacket> meshes, float f) {	
+		Vertex l = MathUtil.lerp(lastLocation, location, f);
+		Quat r = rotation;
+		if(animate && animations != null)
+			model.pushToDrawQueue(meshes, l, r, MathUtil.interpolateFrame(animation.frames[lastFrame], animation.frames[frame], f), scale);
+		else
+			model.pushToDrawQueue(meshes, l, r, scale);
+		int i = 0;
+		while(i < effects.size()) {
+			effects.get(i).draw(meshes, f);
+			i++;
+		}
+	}
 }

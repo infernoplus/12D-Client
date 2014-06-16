@@ -66,7 +66,7 @@ public class Actor {
 			String tag = efct.getProperty("tag", "null");
 			String atch = efct.getProperty("attach", "root");
 			boolean auto = efct.getProperty("auto", true);
-			Effect fx = new Effect(game, this, atch, tag); //TODO: once again, why are we not cacheing?
+			Effect fx = new Effect(game, this, atch, tag);
 			effects.add(fx);
 			if(auto)
 				fx.playEffect();
@@ -124,7 +124,7 @@ public class Actor {
 	}
 	
 	public void playEffect(String e, String m) {
-		Effect fx = new Effect(game, this, m, e); //TODO: once again, why are we not cacheing?
+		Effect fx = new Effect(game, this, m, e);
 		effects.add(fx);
 		fx.playEffect();
 	}

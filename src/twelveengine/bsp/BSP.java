@@ -8,13 +8,6 @@ import twelveengine.data.*;
 import twelveengine.graphics.*;
 import twelveutil.*;
 
-
-//TODO: Pending a pretty major rewrite. Fix the bug with only the last mesh having it's collision recorded.
-//TODO: Improve primitive non rotating physics models. I want capsuleTriangleIntersection cylinderTriangleIntersection and other important ones.
-
-//TODO: THE TIDE IS CHANGING, WE ARE NEARING 100% BULLET INTEGRATION. FUCK THE PHYSICS, WHEN WE ARE FULLY INTEGRATED WITH THE BULLET MASTERRACE WE SHALL PURGE 12PHYS!
-
-
 public class BSP {	
 	public Game game;
 	public String name;
@@ -166,7 +159,6 @@ public class BSP {
     		ArrayList<GlowLight> addLights = new ArrayList<GlowLight>();
     		ArrayList<LineLight> addLineLights = new ArrayList<LineLight>();
     		
-    		//TODO: set defaults for case of no sky
     		String smodels[] = new String[0];
     		int swait[] = new int[0];
     		int strans[] = new int[0];

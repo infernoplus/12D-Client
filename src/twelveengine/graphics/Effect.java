@@ -83,7 +83,7 @@ public class Effect {
 	
 	//Takes the tag and builds the effect and all prerequisite particle systems.
 	private void build(String f) throws Exception {
-		Tag efct = game.tagger.openTag(f);
+		Tag efct = game.getEffect(f);
 		name = efct.getProperty("name", "default effect");
 		
 		TagSubObject parts = efct.getObject("parts");
@@ -99,7 +99,7 @@ public class Effect {
 			
 			//More of this?
 			if(type.equals("particles")) {
-				ParticleSystem p = new ParticleSystem(this, tag, location, velocity); //TODO: Pulling from a cache of particle systems? u wot mayte?
+				ParticleSystem p = new ParticleSystem(this, tag, location, velocity);
 				events.add(new EffectEvent(this, p, lp, strt, end));
 			}
 			else if(type.equals("sound")) {

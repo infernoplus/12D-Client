@@ -176,12 +176,5 @@ public class Biped extends Physical {
 		super.destroy();
 		physics.destroy();
 	}
-	
-	public void draw(ArrayList<TrianglePacket> meshes, float f) {
-		Vertex l = MathUtil.lerp(lastLocation, location, f);
-		Quat r = MathUtil.slerpQuat(lastRotation, rotation, f);
-		
-		model.pushToDrawQueue(meshes, l, r, scale);
-	}
 
 }

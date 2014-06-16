@@ -15,6 +15,7 @@ import twelveutil.FileUtil;
 public class Console {
 	
 	Engine engine;
+	Sound consolePlay; //Sound played by the "play" console command.
 	
 	public Console(Engine passedGame) {
 		Log.log("Initializing console...", "Console");
@@ -127,10 +128,36 @@ public class Console {
 				
 				return;
 			}
+			if(command.equals("teleport") || command.equals("tp") || command.equals("tele") || command.equals("location")) {
+				Actor a = engine.game.getActor(Integer.parseInt(params[0]));
+				Vertex v = new Vertex(Float.parseFloat(params[1]), Float.parseFloat(params[2]), Float.parseFloat(params[3]));
+				a.setLocation(v);
+				a.setVelocity(new Vertex(0,0,0));
+				return;
+			}
+			if(command.equals("velocity")) {
+				Actor a = engine.game.getActor(Integer.parseInt(params[0]));
+				Vertex v = new Vertex(Float.parseFloat(params[1]), Float.parseFloat(params[2]), Float.parseFloat(params[3]));
+				a.setVelocity(v);
+				return;
+			}
+			if(command.equals("rotation")) {
+				Actor a = engine.game.getActor(Integer.parseInt(params[0]));
+				Quat q = new Quat(Float.parseFloat(params[1]), Float.parseFloat(params[2]), Float.parseFloat(params[3]), Float.parseFloat(params[4]));
+				a.setRotation(q);
+				return;
+			}
 			if(command.equals("play")) {
+				if(consolePlay != null)
+					consolePlay.stopSound();
 				SoundData sd = engine.game.getSound(params[0]);
-				Sound s = new Sound(sd, new Vertex(0,0,0), Float.parseFloat(params[1]), false);
-				s.playSound();
+				consolePlay = new Sound(sd, new Vertex(0,0,0), Float.parseFloat(params[1]), false);
+				consolePlay.playSound();
+				return;
+			}
+			if(command.equals("stopplay")) {
+				if(consolePlay != null)
+					consolePlay.stopSound();
 				return;
 			}
 			if(command.equals("animation")) {

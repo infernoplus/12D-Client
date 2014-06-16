@@ -83,16 +83,15 @@ public class ParticleSystem {
 		velocity = v;
 	}
 	
-	//TODO: cache the particle and particle system TAGS in engine.game so that we don't read from file as much.
 	//This method take the .particlesytem tag and makes a useable particle system out of it.
 	public void build(String f) throws Exception {
-		Tag sys = effect.game.tagger.openTag(f);
+		Tag sys = effect.game.getParticleSystem(f);
 		name = sys.getProperty("name", "default part sys");
 		TagSubObject prts = sys.getObject("particles");
 		
 		int i = 0;
 		int j = prts.getTotalObjects();
-		while(i < j) { //Collecint information to make the system.
+		while(i < j) { //Collecting information to make the system.
 			TagSubObject prt = prts.getObject(i);
 			String tag = prt.getProperty("tag", "null");
 			int start = prt.getProperty("start", 0);
@@ -167,7 +166,7 @@ public class ParticleSystem {
 	}
 	
 
-	public void playEffect() {
+	public void playParticleSystem() {
 		age.add(0);
 	}
 	

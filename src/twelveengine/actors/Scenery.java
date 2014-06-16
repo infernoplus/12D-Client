@@ -17,7 +17,6 @@ public class Scenery extends Physical {
 	public Scenery(Game w, int n, String f, Vertex l, Vertex v, Quat r) {
 		super(w, n, f, l, v, r);
 		internalName += ":Scenery";
-		System.out.println("DAS THINGGGGGGGGGGGGGGGGGGGGGGGGG " + loop);
 		createPhysicsObject();
 		setLocation(l);
 		setRotation(r);
@@ -184,17 +183,4 @@ public class Scenery extends Physical {
 			model.setAnimation(animations.animations[0].frames[i]);
 	}*/
 	
-	public void draw(ArrayList<TrianglePacket> meshes, float f) {	
-		Vertex l = MathUtil.lerp(lastLocation, location, f);
-		Quat r = MathUtil.slerpQuat(lastRotation, rotation, f);
-		if(animate)
-			model.pushToDrawQueue(meshes, l, r, MathUtil.interpolateFrame(animation.frames[lastFrame], animation.frames[frame], f), scale);
-		else
-			model.pushToDrawQueue(meshes, l, r, scale);
-		int i = 0;
-		while(i < effects.size()) {
-			effects.get(i).draw(meshes, f);
-			i++;
-		}
-	}
 }

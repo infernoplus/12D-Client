@@ -620,7 +620,7 @@ public class GraphicsCore {
 		setFirstPersonProjection();
 		activeProgram(0, f);
 		
-		//TODO: edit fp rendering so it is consistent with the world space so shadows are cast on FP models correctly.
+		//TODO: [after we fix shadows and frustrums]edit fp rendering so it is consistent with the world space so shadows are cast on FP models correctly.
 		glEnable(GL_TEXTURE_2D);
 		i = 0;
 		while(i < fp.size()) {
@@ -692,7 +692,7 @@ public class GraphicsCore {
 		
 
 		/*
-		//HUD TODO: currently just drawing a crosshair, create actual hud system
+		//HUD currently just drawing a crosshair, create actual hud system
 		glLoadIdentity();
 		glRotated(0,1.0,0.0,0.0);
 		glRotated(0,0.0,1.0,0.0);

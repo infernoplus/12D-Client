@@ -8,8 +8,6 @@ import java.io.InputStreamReader;
 import twelveengine.data.Vertex;
 import twelveutil.FileUtil;
 
-//TODO: Pending major rework and streamlining!
-//TODO: Rewrite in a manner similar to model? Doing locations and rotations on the fly might be better.
 public class PhysModel {
 	public String file;
 	

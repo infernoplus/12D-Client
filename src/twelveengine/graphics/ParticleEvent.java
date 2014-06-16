@@ -182,7 +182,7 @@ public class ParticleEvent {
 	
 	//Takes params from the .particle tag to define particles that this spawns when triggered.
 	private void build(String f) throws Exception {
-		Tag part = partSys.effect.game.tagger.openTag(f);
+		Tag part = partSys.effect.game.getParticle(f); //TODO: This could be cached in some way, right now we have to ask the Game class search every time. See Game.getParticle(String s);
 		name = part.getProperty("name", "default particle");
 		createGeometry(part.getProperty("geometry", "facing"));
 		shader = partSys.effect.game.getShader(part.getProperty("shader", "null"));

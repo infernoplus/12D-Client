@@ -3,8 +3,6 @@ package twelveengine.audio;
 import static org.lwjgl.openal.AL10.alBufferData;
 import static org.lwjgl.openal.AL10.alGenBuffers;
 
-import com.flibitijibibo.flibitFile.FLACFile;
-
 public class SoundData {
 	public String file;
 	
@@ -14,7 +12,7 @@ public class SoundData {
 		try {
 			file = s;
 			FLACFile fileIn;
-			fileIn = new FLACFile(s); //TODO: flac file does not conform to FileUtil standards. fixit.		
+			fileIn = new FLACFile(s);
 			bufferIndex = alGenBuffers();
 		    alBufferData(bufferIndex, fileIn.getFormat(), fileIn.getData(), fileIn.getSampleRate());
 			

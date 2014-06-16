@@ -97,6 +97,7 @@ public class Frustrum {
 	
 	//Extrudes this frustrum by the distance (d) over its normals and returns it. Used for testing if a sphere is inside or partially inside the frustrum. 
 	//TODO: Look into this further... Probably slow as balls, maybe not exactly 100% accurate bounds.
+	//TODO: 2014This is the scariest looking thing ive ever seen. omfg....
 	public Frustrum normalizedExtrusion(float d) {
 		Vertex v = MathUtil.add(ftl, MathUtil.multiply(MathUtil.inverse(right), d));
 		v = MathUtil.add(v, MathUtil.multiply(up, d));

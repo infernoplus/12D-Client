@@ -9,11 +9,9 @@ import twelveengine.data.*;
 import twelveengine.script.*;
 import twelveengine.graphics.*;
 import twelveengine.ui.*;
-
 import twelvelib.net.packets.*;
+import twelveutil.*;
 
-import twelveutil.MathUtil;
-import twelveutil.TagReader;
 
 public class Game {
 	//Core Stuff
@@ -43,6 +41,9 @@ public class Game {
 	public ArrayList<Texture> textures = new ArrayList<Texture>();
 	public ArrayList<CubeMap> cubemaps = new ArrayList<CubeMap>();
 	public ArrayList<SoundData> sounds = new ArrayList<SoundData>();
+	public ArrayList<Tag> effects = new ArrayList<Tag>(); //These three things store the tag because we have to regularly build new systems/particles/effects.
+	public ArrayList<Tag> partSys = new ArrayList<Tag>();
+	public ArrayList<Tag> particles = new ArrayList<Tag>();
 	public ArrayList<Ui> ui = new ArrayList<Ui>();
 	
 	public ScriptManager scripts;
@@ -422,6 +423,45 @@ public class Game {
 		SoundData sd = new SoundData(s);
 		sounds.add(sd);
 		return sd;
+	}
+	
+	public Tag getEffect(String s) {
+		int i = 0;
+		while(i < effects.size()) {
+			if(effects.get(i).file.equals(s)) {
+				return effects.get(i);
+			}
+			i++;
+		}
+		Tag t = tagger.openTag(s);
+		effects.add(t);
+		return t;
+	}
+	
+	public Tag getParticleSystem(String s) {
+		int i = 0;
+		while(i < partSys.size()) {
+			if(partSys.get(i).file.equals(s)) {
+				return partSys.get(i);
+			}
+			i++;
+		}
+		Tag t = tagger.openTag(s);
+		partSys.add(t);
+		return t;
+	}
+	
+	public Tag getParticle(String s) {
+		int i = 0;
+		while(i < particles.size()) {
+			if(particles.get(i).file.equals(s)) {
+				return particles.get(i);
+			}
+			i++;
+		}
+		Tag t = tagger.openTag(s);
+		particles.add(t);
+		return t;
 	}
 	
 	public void pauseSounds() {
