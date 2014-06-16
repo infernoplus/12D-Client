@@ -1,0 +1,63 @@
+property name "Generic Biped";
+
+property model "character/generic/model/generic.model";
+
+property eye 1.75;
+property radius 3;
+
+property movespeed 12.0;
+property acceleration 1.1;
+
+property jumpheight 6.0;
+property aircontrol 0.05;
+property friction 1.0;
+
+property maxhealth 100;
+
+object collision {
+	object 0 {
+		property parent root;
+		
+		property type simple;
+		
+		property shape capsule;
+		property mass 5;
+		property radius 1.5;
+		property height 2.5;
+		object location {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
+		object rotation {
+			property x 0;
+			property y 0;
+			property z 0;
+			property w 0;
+		}
+	}
+}
+
+object hitbox {
+	object 0 {
+		property parent root;
+		
+		property type simple;
+		
+		property shape capsule;
+		property mass 5;
+		property radius 1.5;
+		property height 2.5;
+		object location {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
+		object rotation {
+			property x 0;
+			property y 0;
+			property z 0;
+			property w 0;
+		}
+	}
+}

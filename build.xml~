@@ -1,0 +1,162 @@
+<project default="all" name="Build 12characters">
+	
+	<!-- Delete the output directories -->
+	<target name="clean">
+		<delete dir="built"/>
+	</target>
+	
+	<!-- Classpath list for javac compiling -->
+	<path id="libPath">
+		<pathelement location="lib/flibitFile.jar"/>
+		<pathelement location="lib/lwjgl.jar"/>
+		<pathelement location="lib/lwjgl_util.jar"/>
+		<pathelement location="lib/jflac-1.3.jar"/>
+		<pathelement location="lib/TWL.jar"/>
+		<pathelement location="lib/xpp3-1.1.4c.jar"/>
+		<pathelement location="lib/12Packets.jar"/>
+	</path>
+	
+	<!-- Compile 12characters -->
+	<target name="compile" depends="clean">
+		<!-- Compile the source code with javac -->
+		<mkdir dir="built/javac"/>
+		<javac destdir="built/javac" debug="on" source="1.7">
+			<src path="src"/>
+			<classpath refid="libPath"/>
+		</javac>
+		
+		<!-- Build the engine and assets jars -->
+		<jar destfile="built/jar/12executable.jar">
+			<manifest>
+				<attribute name="Main-Class" value="Executable"/>
+				<attribute name="Class-Path" value=". 12characters.jar assets.jar lib/flibitFile.jar lib/lwjgl.jar lib/lwjgl_util.jar lib/jflac-1.3.jar lib/TWL.jar lib/xpp3-1.1.4c.jar lib/12Packets.jar"/>
+			</manifest>
+			<fileset dir="built/javac" includes="Executable.class"/>
+		</jar>
+		<jar destfile="built/jar/12characters.jar">
+			<fileset dir="built/javac" excludes="Executable.class"/>
+		</jar>
+		<jar destfile="built/jar/assets.jar">
+			<fileset dir="assets" excludes="**/graphics/vector/"/>
+		</jar>
+	</target>
+	
+	<!-- Build GNU/Linux version of 12characters -->
+	<target name="linux" depends="clean,compile">
+		<!-- Create executable file -->
+		<copy file="executables/12characters.sh" todir="built/Linux"/>
+
+		<!-- Create licenses folder -->
+		<copy file="config.cfg" todir="built/Linux"/>
+		<copy todir="built/Linux/licenses">
+			<fileset dir="licenses"/>
+		</copy>
+
+		<!-- Create lib folder -->
+		<copy file="lib/flibitFile.jar" todir="built/Linux/lib"/>
+		<copy file="lib/lwjgl.jar" todir="built/Linux/lib"/>
+		<copy file="lib/lwjgl_util.jar" todir="built/Linux/lib"/>
+		<copy file="lib/jflac-1.3.jar" todir="built/Linux/lib"/>
+		<copy file="lib/TWL.jar" todir="built/Linux/lib"/>
+		<copy file="lib/lwjgl_native/linux/liblwjgl.so" todir="built/Linux"/>
+		<copy file="lib/lwjgl_native/linux/liblwjgl64.so" todir="built/Linux"/>
+		<copy file="lib/lwjgl_native/linux/libopenal.so" todir="built/Linux"/>
+		<copy file="lib/lwjgl_native/linux/libopenal64.so" todir="built/Linux"/>
+		<copy file="lib/xpp3-1.1.4c.jar" todir="built/Linux/lib"/>
+		<copy file="lib/12Packets.jar" todir="built/Linux/lib"/>
+
+		<!-- Create 12characters jars -->
+		<copy file="built/jar/12executable.jar" todir="built/Linux"/>
+		<copy file="built/jar/12characters.jar" todir="built/Linux"/>
+		<copy file="built/jar/assets.jar" todir="built/Linux"/>
+	</target>
+	
+	<!-- Build OSX version of 12characters -->
+	<target name="osx" depends="clean,compile">
+		<!-- Create executable file -->
+		<copy file="executables/12characters.app/Contents/Info.plist" todir="built/OSX/12characters.app/Contents"/>
+		<copy file="executables/12characters.app/Contents/PkgInfo" todir="built/OSX/12characters.app/Contents"/>
+		<copy file="executables/12characters.app/Contents/MacOS/JavaApplicationStub" todir="built/OSX/12characters.app/Contents/MacOS"/>
+		<copy file="executables/12characters.app/Contents/Resources/12characters_Icon.icns" todir="built/OSX/12characters.app/Contents/Resources"/>
+
+		<!-- Create licenses folder -->
+		<copy file="config.cfg" todir="built/OSX"/>
+		<copy todir="built/OSX/licenses">
+			<fileset dir="licenses"/>
+		</copy>
+
+		<!-- Create lib folder -->
+		<copy file="lib/flibitFile.jar" todir="built/OSX/12characters.app/Contents/Resources/Java/lib"/>
+		<copy file="lib/lwjgl.jar" todir="built/OSX/12characters.app/Contents/Resources/Java/lib"/>
+		<copy file="lib/lwjgl_util.jar" todir="built/OSX/12characters.app/Contents/Resources/Java/lib"/>
+		<copy file="lib/jflac-1.3.jar" todir="built/OSX/12characters.app/Contents/Resources/Java/lib"/>
+		<copy file="lib/TWL.jar" todir="built/OSX/12characters.app/Contents/Resources/Java/lib"/>
+		<copy file="lib/lwjgl_native/macosx/liblwjgl.jnilib" todir="built/OSX/12characters.app/Contents/Resources/Java"/>
+		<copy file="lib/lwjgl_native/macosx/openal.dylib" todir="built/OSX/12characters.app/Contents/Resources/Java"/>
+		<copy file="lib/xpp3-1.1.4c.jar" todir="built/OSX/lib"/>
+		<copy file="lib/12Packets.jar" todir="built/OSX/lib"/>
+
+		<!-- Create 12characters jars -->
+		<copy file="built/jar/12executable.jar" todir="built/OSX/12characters.app/Contents/Resources/Java"/>
+		<copy file="built/jar/12characters.jar" todir="built/OSX/12characters.app/Contents/Resources/Java"/>
+		<copy file="built/jar/assets.jar" todir="built/OSX/12characters.app/Contents/Resources/Java"/>
+	</target>
+	
+	<!-- Build Windows version of 12characters -->
+	<target name="windows" depends="clean,compile">
+		<!-- Create executable file -->
+		<copy file="executables/12characters.exe" todir="built/Windows"/>
+
+		<!-- Create licenses folder -->
+		<copy file="config.cfg" todir="built/Windows"/>
+		<copy todir="built/Windows/licenses">
+			<fileset dir="licenses"/>
+		</copy>
+
+		<!-- Create lib folder -->
+		<copy file="lib/flibitFile.jar" todir="built/Windows/lib"/>
+		<copy file="lib/lwjgl.jar" todir="built/Windows/lib"/>
+		<copy file="lib/lwjgl_util.jar" todir="built/Windows/lib"/>
+		<copy file="lib/jflac-1.3.jar" todir="built/Windows/lib"/>
+		<copy file="lib/TWL.jar" todir="built/Windows/lib"/>
+		<copy file="lib/lwjgl_native/windows/lwjgl.dll" todir="built/Windows/"/>
+		<copy file="lib/lwjgl_native/windows/lwjgl64.dll" todir="built/Windows/"/>
+		<copy file="lib/lwjgl_native/windows/OpenAL32.dll" todir="built/Windows/"/>
+		<copy file="lib/lwjgl_native/windows/OpenAL64.dll" todir="built/Windows/"/>
+		<copy file="lib/xpp3-1.1.4c.jar" todir="built/Windows/lib"/>
+		<copy file="lib/12Packets.jar" todir="built/Windows/lib"/>
+
+		<!-- Create 12characters jars -->
+		<copy file="built/jar/12executable.jar" todir="built/Windows"/>
+		<copy file="built/jar/12characters.jar" todir="built/Windows"/>
+		<copy file="built/jar/assets.jar" todir="built/Windows"/>
+	</target>
+	
+	<!-- Build the source distribution -->
+	<target name="srcdist" depends="clean">
+		<tar destfile="built/srcdist/12characters-src.tar.gz" compression="gzip">
+			<tarfileset dir="executables" prefix="12characters/executables"/>
+			<tarfileset dir="lib" prefix="12characters/lib"/>
+			<tarfileset dir="licenses" prefix="12characters/licenses"/>
+			<tarfileset dir="src" prefix="12characters/src"/>
+			<tarfileset dir="." prefix="12characters">
+				<include name="build.xml"/>
+				<include name="config.cfg"/>
+			</tarfileset>
+		</tar>
+		<zip destfile="built/srcdist/12characters-src.zip">
+			<zipfileset dir="." prefix="12characters">
+				<include name="executables/**"/>
+				<include name="lib/**"/>				
+				<include name="licenses/*.*"/>
+				<include name="src/**"/>
+				<include name="build.xml"/>
+				<include name="config.cfg"/>
+			</zipfileset>
+		</zip>
+	</target>
+	
+	<target name="all" depends="linux,osx,windows,srcdist">
+	</target>
+	
+</project>

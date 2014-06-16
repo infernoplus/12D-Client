@@ -1,0 +1,4 @@
+property name "test hitscan bullet";
+property lifespan 10;
+property damage 10;
+property range 3500;

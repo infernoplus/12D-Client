@@ -1,0 +1,7 @@
+class=Item
+name=Useless Item
+
+model=graphics/model/primitive/box.obj
+physmodel=graphics/model/primitive/tinyBox.obj
+
+%EOF

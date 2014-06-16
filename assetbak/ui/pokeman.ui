@@ -1,0 +1,320 @@
+//This file is to define a hud and all its elements
+//A hud is rendered without depth testing (for obvious reasons) so remember the rule: first rendered on bottom, last rendered on top.
+
+//Syntax for a frame is as follows:
+//frame # name script
+//Note: do not skip numbers with frames. Start with frame 0 and go up.
+//The script parameter is optional, whenever the frame is opened it will run it's script. This allows you to set values in fields or set settings when you open a frame.
+
+//Syntax for an element is as follows:
+//begin element
+//	<string name>
+//	<int frames>,<int frames>,etc...
+//	<file shader>
+//	<float xPosition>,<float yPosition>
+//	<float width>,<float height>
+//	<string horizontalAlign>,<string verticalAlign>
+//end
+//Note: the frames parameter for an element specifies which frames the element will appear in. This means it can have as many entries as you need, but must have at least 1.
+
+name=Test UI
+usemouse=true
+
+frame 0 main console(log "you fat twat");
+frame 1 multiplayer
+frame 2 options console(log "you fat dick"); console(log "you fatter dick"); console(log "you fattest dick");
+frame 3 quit console(log "you fatter ass");
+frame 4 wildbox console(play audio/music/pokemon.flac 1); console(spawn object/scenery/boxmon.scenery -4 419.4181082082236 0.07153066328752 -161.94666590707212);
+frame 5 goraichu console(play audio/sound/raichu.flac 2); console(spawn object/scenery/raichu.scenery -3 419.4181082082236 24.07153066328752 -161.94666590707212);
+frame 6 battle
+frame 7 tailwhip console(play audio/sound/raichu.flac 2); console(animation -3 tailwhip false);
+frame 8 bubble console(play audio/sound/raichu.flac 2); console(effect -3 graphics/effect/pkmnbubble.effect none);
+
+//Main menu
+
+begin element
+	gaylo logo
+	0,1,2,3
+	graphics/shader/ui/testui/gaylologo.shader
+	0,-200
+	2048,512
+	center,top
+end
+
+begin element
+	gfwl logo
+	0,1,2,3
+	graphics/shader/ui/testui/gfwllogo.shader
+	0,0
+	128,64
+	right,bottom
+end
+
+begin button
+	button multiplayer
+	0,1,2,3
+	graphics/shader/ui/testui/buttonmultiplayer.shader
+	0,200
+	256,64
+	left,top
+	goto(multiplayer);
+end
+
+begin button
+	button options
+	0,1,2,3
+	graphics/shader/ui/testui/buttonoptions.shader
+	0,300
+	256,64
+	left,top
+	goto(options);
+end
+
+begin button
+	button quit
+	0,1,2,3
+	graphics/shader/ui/testui/buttonquit.shader
+	0,400
+	256,64
+	left,top
+	goto(quit);
+end
+
+begin button
+	button pokeman
+	0,1,2,3
+	graphics/shader/ui/pokeman/beginpokeman.shader
+	0,500
+	256,64
+	left,top
+	goto(wildbox);
+end
+
+//Multiplayer
+
+begin element
+	label mp name
+	1
+	graphics/shader/ui/testui/labelname.shader
+	300,250
+	64,16
+	left,top
+end
+
+begin input
+	input mp name
+	1
+	graphics/shader/ui/testui/textbox.shader
+	364,250
+	128,13
+	left,top
+	faggot
+	console(log "you pressed enter");
+end
+
+begin element
+	label ip adress
+	1
+	graphics/shader/ui/testui/labelip.shader
+	300,275
+	64,16
+	left,top
+end
+
+begin input
+	input ip adress
+	1
+	graphics/shader/ui/testui/textboxlong.shader
+	364,275
+	256,13
+	left,top
+	localhost
+	console(log "nobody loves you scrub");
+end
+
+begin element
+	label server port
+	1
+	graphics/shader/ui/testui/labelport.shader
+	300,300
+	64,16
+	left,top
+end
+
+begin input
+	input server port
+	1
+	graphics/shader/ui/testui/textboxshort.shader
+	364,300
+	64,13
+	left,top
+	2004
+	console(log "get good or go home");
+end
+
+begin button
+	button connect
+	1
+	graphics/shader/ui/testui/buttonconnect.shader
+	364,325
+	128,32
+	left,top
+	console(log getSetting(getInput(input ip adress)));
+end
+
+//Options
+
+begin element
+	label option ass
+	2
+	graphics/shader/ui/testui/labelass.shader
+	300,250
+	64,16
+	left,top
+end
+
+begin input
+	input option ass
+	2
+	graphics/shader/ui/testui/textbox.shader
+	364,250
+	128,13
+	left,top
+	Mostly All
+	console(log "420 blaze it");
+end
+
+begin element
+	label option algebra
+	2
+	graphics/shader/ui/testui/labelalgebra.shader
+	300,275
+	64,16
+	left,top
+end
+
+begin button
+	button option algebra
+	2
+	graphics/shader/ui/testui/buttonoptiontoggle.shader
+	364,275
+	16,16
+	left,top
+	command nan
+end
+
+begin element
+	label option seven
+	2
+	graphics/shader/ui/testui/labelseven.shader
+	300,300
+	64,16
+	left,top
+end
+
+begin button
+	button option seven
+	2
+	graphics/shader/ui/testui/buttonoptiontoggle.shader
+	364,300
+	16,16
+	left,top
+	console(log "LOOK AT MY ASS");
+end
+
+//Quit menu
+
+begin button
+	button confirm
+	3
+	graphics/shader/ui/testui/buttonconfirm.shader
+	128,420
+	128,32
+	left,top
+	console(quit);
+end
+
+begin button
+	button cancel
+	3
+	graphics/shader/ui/testui/buttoncancel.shader
+	128,440
+	128,32
+	left,top
+	goto(main);
+end
+
+//Pokeman WildBox
+begin button
+	button wild
+	4
+	graphics/shader/ui/pokeman/wildbox.shader
+	0,0
+	1200,900
+	center,center
+	goto(goraichu);
+end
+
+//Pokeman GoRaichu
+begin button
+	button go
+	5
+	graphics/shader/ui/pokeman/goraichu.shader
+	0,0
+	1200,900
+	center,center
+	goto(battle);
+end
+
+//Pokeman Battle
+begin element
+	label battle
+	6
+	graphics/shader/ui/pokeman/battle.shader
+	0,0
+	1200,900
+	center,center
+end
+
+begin button
+	button tail
+	6
+	graphics/shader/ui/pokeman/buttontail.shader
+	128,700
+	256,128
+	left,top
+	goto(tailwhip);
+end
+
+begin button
+	button bubble
+	6
+	graphics/shader/ui/pokeman/buttonbubble.shader
+	800,700
+	256,128
+	left,top
+	goto(bubble);
+end
+
+//Pokeman Tailwhip
+begin button
+	button move tail
+	7
+	graphics/shader/ui/pokeman/tailwhip.shader
+	0,0
+	1200,900
+	center,center
+	goto(battle);
+end
+
+//Pokeman Bubble
+
+begin button
+	button move bubble
+	8
+	graphics/shader/ui/pokeman/bubble.shader
+	0,0
+	1200,900
+	center,center
+	goto(battle);
+end

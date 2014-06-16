@@ -1,0 +1,51 @@
+property name "box test object";
+property model "multipurpose/model/box.model";
+
+property radius 5;
+property scale 4;
+
+object collision {
+	object 0 {
+		property parent root;
+		
+		property type simple;
+		
+		property shape hull;
+		property mass 1;
+		property file "multipurpose/model/box.collision";
+		object location {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
+		object rotation {
+			property x 0;
+			property y 0;
+			property z 0;
+			property w 0;
+		}
+	}
+}
+
+object hitbox {
+	object 0 {
+		property parent root;
+		
+		property type simple;
+		
+		property shape hull;
+		property mass 1;
+		property file "multipurpose/model/box.collision";
+		object location {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
+		object rotation {
+			property x 0;
+			property y 0;
+			property z 0;
+			property w 0;
+		}
+	}
+}

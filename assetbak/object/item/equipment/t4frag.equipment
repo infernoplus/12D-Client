@@ -1,0 +1,15 @@
+class=Equipment
+name=T4 Frag
+
+model=graphics/model/item/equipment/t4frag.obj
+physmodel=graphics/model/primitive/tinyBox.obj
+
+type=t4frag
+stacks=true
+
+total=1
+
+createwhenused=object/projectile/t4frag.projectile
+impulse=7
+
+%EOF

@@ -1,0 +1,16 @@
+class=Pawn
+name=Generic Pawn
+
+model=graphics/model/primitive/rectangle.obj
+physmodel=graphics/model/primitive/rectangle.obj
+
+foot=1
+eye=3
+radius=3
+
+maxhealth=100
+jumpheight=1.5
+movespeed=0.7
+aircontrol=0.05
+
+%EOF

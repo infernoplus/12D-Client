@@ -1,0 +1,27 @@
+//begin particle
+//	<particle filepath>
+//	<amount min>,<amount max>
+//	<spawn start time>,<spawn end time>
+//	<distribution method> (valid types: radial, plate, direction)
+//	<distribution angle x>,<y>,<z> (no effect on radial)
+//	<distribution spread> (only really applies to direction method) 
+//	<distribution equation> (valid types: linear, falloff, buildup, random)
+//	<velocity min>,<velocity max>
+//	<distribution center>
+//	<distribution radius>
+//end
+
+name=Test Sparks
+
+begin particle
+	graphics/effect/particle/test.particle
+	3,11
+	0,30
+	radial
+	0,0,0
+	0
+	random
+	0.01,0.1
+	0,0,0
+	3
+end

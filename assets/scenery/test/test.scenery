@@ -1,0 +1,3 @@
+property name "test scenery object";
+property model "multipurpose/model/box.model";
+property collision "multipurpose/model/box.collision";

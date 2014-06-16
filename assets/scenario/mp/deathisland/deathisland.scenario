@@ -1,0 +1,6 @@
+level=Death Island
+bsp=bsp/deathisland.bsp
+
+vertex<spawn=ffa>=0, 0, 0
+
+%EOF

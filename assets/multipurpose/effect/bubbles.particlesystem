@@ -1,0 +1,33 @@
+property name Bubbles;
+
+object particles {
+	object 0 {
+		property tag "multipurpose/effect/bubble.particle";
+		property start 0;
+		property end 30;
+		object amount {
+			property min 3;
+			property max 9;
+		}
+		object velocity {
+			property min 0.1;
+			property max 1.1;
+		}
+		object distribution {
+			property shape radial;
+			property spread 0;
+			property equation random;
+			object angle {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object center {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			property radius 3;
+		}
+	}
+}

@@ -1,0 +1,21 @@
+class=Weapon
+name=57 SMG
+
+model=graphics/model/item/weapon/57smg/57smg.tbj
+physmodel=graphics/model/primitive/tinyBox.obj
+
+fpmodel=graphics/model/item/weapon/57smg/57smg.tbj
+fpanimation=graphics/model/item/weapon/57smg/57smg.taf
+
+simulatedprojectile=true
+primaryfire=object/projectile/cr55bullet.hitscan
+
+rateoffire=4
+
+impulse=7000
+projectiles=1
+
+spreadx=0.12
+spready=0.12
+
+%EOF

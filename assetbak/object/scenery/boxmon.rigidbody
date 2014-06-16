@@ -1,0 +1,7 @@
+class=Scenery
+name=Boxmon
+
+model=graphics/model/primitive/box.model
+collision=graphics/model/primitive/tinyBox.collision
+
+%EOF

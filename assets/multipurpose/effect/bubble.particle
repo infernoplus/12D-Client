@@ -1,0 +1,22 @@
+property name Bubble;
+property geometry facing;
+property shader "multipurpose/effect/shader/bubble.shader";
+
+property collision false;
+property attached false;
+property gravity -0.0005;
+property drag 0.93;
+property bounce 0.9;
+
+object life {
+	property min 90;
+	property max 250;
+}
+
+object size {
+	property min 0.3;
+	property max 0.9;
+}
+
+property scale 1.0;
+

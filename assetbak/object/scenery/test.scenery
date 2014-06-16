@@ -1,0 +1,9 @@
+class=Scenery
+name=Animations Test Object
+
+model=graphics/model/primitive/cubemapbox.model
+collision=graphics/model/primitive/tinyBox.collision
+
+scale=10
+
+%EOF

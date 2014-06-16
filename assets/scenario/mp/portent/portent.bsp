@@ -1,0 +1,69 @@
+property name portent;
+
+object meshes {
+	object mesh0 {
+		property model "scenario/mp/portent/model/portent.model";
+		property collision "scenario/mp/portent/model/portent.collision";
+		object location {
+			property x 0.0;
+			property y 0.0;
+			property z 0.0;
+		}
+		object rotation {
+			property x 0.0;
+			property y 0.0;
+			property z 0.0;
+			property w 1.0;
+		}
+		property scale 0.125;
+	}
+}
+
+object skys {
+	property sun_map_radius 2048.0;
+	property near_shadow_dist 128.0;
+	property overlap_shadow_dist 64.0;
+	property far_shadow_dist 512.0;
+	property light_min_intensity 0.1;
+	property light_max_intensity 1.0;
+	object sky0 {
+		property model "sky/portent sky/model/portent sky.model";
+		property wait_period 100;
+		property transition_period 600;
+		object fog {
+			property start 32.0;
+			property end 1024.0;
+			property density 0.4;
+			
+			object color {
+				property r 0.07;
+				property g 0.22;
+				property b 0.66;
+				property a 0.9;
+			}
+		}
+		object sun {
+			object rotation {
+				property x 45;
+				property y 55;
+			}
+			object light_color {
+				property r 0.81;
+				property g 0.81;
+				property b 0.92;
+				property a 0.9;
+			}
+			object shadow_color {
+				property r 0.75;
+				property g 0.88;
+				property b 0.95;
+				property a 0.49;
+			}
+		}
+	}
+}
+
+object lights {
+}
+
+

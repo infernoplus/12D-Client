@@ -1,0 +1,5 @@
+object=deathwater
+model=graphics/model/bsp/deathisland_water.model
+collision=graphics/model/primitive/tinyBox.collision
+
+%EOF

@@ -1,0 +1,85 @@
+(var boolean test_boolean false)
+(var boolean test_boolean2 false)
+(var int test_int 1)
+(var int test_int2 125)
+(var int test_int3 -10020)
+(var int test_int4 0)
+(var float test_float 0)
+(var float test_float2 0.01)
+(var float test_float3 5219.12)
+(var string test_string "string")
+(var string test_string2 "ass twats")
+(var string test_string3 "42")
+
+(script all dormant "whiletest"
+	(log "testing while")
+	(while (< test_int4 30) 
+		(begin
+			(log "Still running...")
+			(set test_int4 (add test_int4 1))
+			(log test_int4)
+		)
+	)
+	(log "done!")
+)
+
+(script all dormant "sleepuntiltest"
+	(log "sleeping until test_boolean2 is true)
+	(until test_boolean2)
+	(log "test_boolean2 is now true so now we can continue!")
+)
+
+(script all dormant "settestbool2"
+	(set test_boolean2 true)
+)
+
+(script all dormant "test"
+	(if test_boolean 
+		(begin 
+			(log "test boolean is true")
+		)
+		(begin 
+			(log "test boolean is false")
+		)
+	)
+	(if (== test_int2 125)
+		(begin 
+			(log "equals")
+		)
+		(begin 
+			(log "not equals")
+		)
+	)
+	(log (<= 1 4))
+	(sleep 30)
+	(log test_string2)
+	(set test_string2 "my ass")
+	(log test_string2)
+	(spawn "object/scenery/raichu.scenery" "Toasty" 0 0 0)
+	(sleep 120)
+	(invoke (actor "Toasty") location 0 0 -50)
+	(sleep 60)
+	(invoke (actor "Toasty") rotation 0 1.2 0)
+	(sleep 60)
+	(invoke (actor "Toasty") destroy)
+	(log "Toasty was a bitch")
+)
+
+(script all dormant "test initial script"
+	(if (< test_int 5)
+		(begin 
+			(log "test int is less than 5")
+		)
+	)
+	(log "now we are here")
+	(log "and then here")
+	(kawaii "uguu" (get haruhi kyon))
+	(sleep 150)
+	(log "and finally here")
+	(play)
+)
+
+(script all dormant "test continuous script"
+	(sleep 300)
+	(log "continous script is still continuing")
+)

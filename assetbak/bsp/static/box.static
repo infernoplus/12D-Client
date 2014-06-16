@@ -1,0 +1,5 @@
+object=box
+model=graphics/model/primitive/box.obj
+collision=graphics/model/primitive/box.obj
+
+%EOF

@@ -1,0 +1,35 @@
+
+property name "Console";
+property usemouse false;
+
+object frames {
+	object 0 {
+		property name main;
+		property activescript "";
+		property initscript "focus(input console)";
+	}
+}
+
+object elements {
+	object 0 {
+		property type "input";
+		property name "input console";
+		object frames {
+			property 0 0;
+		}
+		property shader "ui/console/shader/inputBox.shader";
+		object bounds {
+			property x 0;
+			property y 0;
+			property w 1024;
+			property h 13;
+		}
+		object align {
+			property horizontal left;
+			property vertical bottom;
+		}
+		property text "";
+		property clickscript "";
+		property activescript "console(getInput(input console))/ clear(input console)/";
+	}
+}

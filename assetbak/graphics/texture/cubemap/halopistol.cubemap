@@ -1,0 +1,6 @@
+left=graphics/texture/cubemap/halopistolcube1.png
+right=graphics/texture/cubemap/halopistolcube3.png
+front=graphics/texture/cubemap/halopistolcube2.png
+back=graphics/texture/cubemap/halopistolcube4.png
+top=graphics/texture/cubemap/halopistolcube5.png
+bottom=graphics/texture/cubemap/halopistolcube6.png

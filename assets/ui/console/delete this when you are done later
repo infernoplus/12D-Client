@@ -1,0 +1,39 @@
+//This file is to define a hud and all its elements
+//A hud is rendered without depth testing (for obvious reasons) so remember the rule: first rendered on bottom, last rendered on top.
+
+//Syntax for a frame is as follows:
+//frame # name script
+//Note: do not skip numbers with frames. Start with frame 0 and go up.
+//The script parameter is optional, whenever the frame is opened it will run it's script. This allows you to set values in fields or set settings when you open a frame.
+
+//Syntax for a sound is as follows:
+//sound # <file> <volume 0.0 to 1.0>
+//Note: do not skip numbers with frames. Start with frame 0 and go up.
+//Sounds are played with the script command play(#);
+
+//Syntax for an element is as follows:
+//begin element
+//	<string name>
+//	<int frames>,<int frames>,etc...
+//	<file shader>
+//	<float xPosition>,<float yPosition>
+//	<float width>,<float height>
+//	<string horizontalAlign>,<string verticalAlign>
+//end
+//Note: the frames parameter for an element specifies which frames the element will appear in. This means it can have as many entries as you need, but must have at least 1.
+
+name=Console
+usemouse=false
+
+frame 0 main focus(input console);
+
+begin input
+	input console
+	0
+	ui/console/shader/inputBox.shader
+	0,0
+	1024,13
+	left,bottom
+	
+	console(getInput(input console)); clear(input console);
+end

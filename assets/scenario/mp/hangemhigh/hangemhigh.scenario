@@ -1,0 +1,112 @@
+property name "Hang'em High";
+property bsp "scenario/mp/hangemhigh/hangemhigh.bsp";
+property script "scenario/mp/hangemhigh/hangemhigh.script";
+
+object player_spawns {
+	object 0 {
+		property x -200.74001323054046;
+		property y -143.04215187120337;
+		property z -124.60679707517514;
+	}
+	object 1 {
+		property x -152.12761153701555;
+		property y -309.04178134904174;
+		property z -154.86145028516333;
+	}
+	object 2 {
+		property x -68.45842290180646;
+		property y -377.6411776693763;
+		property z -154.86145028516333;
+	}
+	object 3 {
+		property x 102.68670304349449;
+		property y -338.18064112716263;
+		property z -154.78821324816496;
+	}
+	object 5 {
+		property x 155.78415903470307;
+		property y -325.49032274299935;
+		property z -50.91185262936253;
+	}
+	object 6 {
+		property x 258.03248102232294;
+		property y -281.5127738863207;
+		property z -73.81775260205173;
+	}
+	object 7 {
+		property x 288.68536135151476;
+		property y 20.551944948056285;
+		property z -73.34398408742132;
+	}
+	object 8 {
+		property x 287.3724227532546;
+		property y 103.29917724516532;
+		property z -154.121391284441;
+	}
+	object 9 {
+		property x 106.24827224784137;
+		property y 171.22808325350474;
+		property z -154.121391284441;
+	}
+	object 10 {
+		property x -40.6310913240566;
+		property y 222.35367009626327;
+		property z -154.121391284441;
+	}
+	object 11 {
+		property x -139.0465914419452;
+		property y 199.68061743299845;
+		property z -124.2004389551397;
+	}
+	object 12 {
+		property x -104.69877797209351;
+		property y 194.5872905095529;
+		property z -63.051562917119966;
+	}
+}
+
+object flags {
+	object 0 {
+		property name somepoint;
+		property x 10.79226371048854;
+		property y -386.9314472531352;
+		property z -160.67061782409272;
+	}
+	object 1 {
+		property name center;
+		property x 0.0;
+		property y 0.0;
+		property z 0.0;
+	}
+}
+
+object item_spawns {
+	object 0 {
+		property item "item/weapon/shotgun/shotgun.weapon";
+		property time 30;
+		property x 10.79226371048854;
+		property y -386.9314472531352;
+		property z -160.67061782409272;
+	}
+	object 1 {
+		property item "item/weapon/rifle/rifle.weapon";
+		property time 30;
+		property x 159.22285142190609;
+		property y -48.33043557628999;
+		property z -154.0354969741079;
+	}
+	object 2 {
+		property item "item/weapon/pistol/pistol.weapon";
+		property time 30;
+		property x 247.19171114919814;
+		property y 65.6109129209842;
+		property z -64.99303349199121;
+	}
+	object 3 {
+		property item "item/equipment/grenade/grenade.weapon";
+		property time 30;
+		property x 282.8463751892304;
+		property y -173.34809386050898;
+		property z -73.55301093718937;
+	}
+}

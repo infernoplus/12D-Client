@@ -1,0 +1,12 @@
+property name "Bubbles Effect";
+property loop false;
+
+object parts {
+	object 0 {
+		property type particles;
+		property tag "multipurpose/effect/bubbles.particlesystem";
+		property loop true;
+		property start 0;
+		property repeat 30;
+	}
+}

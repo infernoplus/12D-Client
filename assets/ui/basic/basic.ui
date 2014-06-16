@@ -1,0 +1,70 @@
+
+property name menu;
+property usemouse true;
+
+object frames {
+	object 0 {
+		property name main;
+		property activescript "";
+		property initscript "";
+	}
+}
+
+object elements {
+	object 0 {
+		property type "element";
+		property name "12dlogo";
+		object frames {
+			property 0 0;
+		}
+		property shader "ui/basic/shader/12dlogo64.shader";
+		object bounds {
+			property x 0;
+			property y 0;
+			property w 128;
+			property h 128;
+		}
+		object align {
+			property horizontal right;
+			property vertical top;
+		}
+	}
+	object 1 {
+		property type "button";
+		property name "resume button";
+		object frames {
+			property 0 0;
+		}
+		property shader "ui/basic/shader/butresume.shader";
+		object bounds {
+			property x 0;
+			property y 128;
+			property w 128;
+			property h 32;
+		}
+		object align {
+			property horizontal right;
+			property vertical top;
+		}
+		property clickscript "";
+	}
+	object 2 {
+		property type "button";
+		property name "quit button";
+		object frames {
+			property 0 0;
+		}
+		property shader "ui/basic/shader/butquit.shader";
+		object bounds {
+			property x 0;
+			property y 160;
+			property w 128;
+			property h 32;
+		}
+		object align {
+			property horizontal right;
+			property vertical top;
+		}
+		property clickscript "console(quit);";
+	}
+}

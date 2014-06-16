@@ -1,0 +1,10 @@
+class=Scenery
+name=Raichu
+
+model=graphics/model/misc/raichu/raichu.model
+collision=graphics/model/primitive/tinyBox.collision
+animation=graphics/model/misc/raichu/raichu-animations.taf
+loop=true
+playanimation=idle
+
+%EOF

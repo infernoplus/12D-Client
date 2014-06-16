@@ -1,0 +1,120 @@
+property name hangemhigh;
+
+object meshes {
+	object mesh0 {
+		property model "scenario/mp/hangemhigh/model/hangemhigh.model";
+		property collision "scenario/mp/hangemhigh/model/hangemhigh.collision";
+		object location {
+			property x -220.0;
+			property y 75.0;
+			property z 0.0;
+		}
+		object rotation {
+			property x 0.0;
+			property y 0.0;
+			property z 0.0;
+			property w 1.0;
+		}
+		property scale 0.125;
+	}
+}
+
+object skys {
+	property sun_map_radius 1024.0;
+	property near_shadow_dist 128.0;
+	property overlap_shadow_dist 64.0;
+	property far_shadow_dist 512.0;
+	property light_min_intensity 0.1;
+	property light_max_intensity 1.0;
+	object sky0 {
+		property model "sky/halo clear sky/model/halo clear sky.model";
+		property wait_period 100;
+		property transition_period 600;
+		object fog {
+			property start 32.0;
+			property end 512.0;
+			property density 0.4;
+			
+			object color {
+				property r 0.07;
+				property g 0.22;
+				property b 0.66;
+				property a 1.3;
+			}
+		}
+		object sun {
+			object rotation {
+				property x 45;
+				property y 55;
+			}
+			object light_color {
+				property r 0.91;
+				property g 0.91;
+				property b 0.88;
+				property a 1.0;
+			}
+			object shadow_color {
+				property r 0.75;
+				property g 0.88;
+				property b 0.95;
+				property a 0.55;
+			}
+		}
+	}
+}
+
+object lights {
+	object glow {
+		object glow0 {
+			object color {
+				property r 0.07;
+				property g 0.22;
+				property b 0.66;
+				property a 1.0;
+			}
+			object location {
+				property x 0.0;
+				property y 100.0;
+				property z -50.0;
+			}
+			property radius 100;
+		}
+		object glow1 {
+			object color {
+				property r 0.07;
+				property g 0.22;
+				property b 0.66;
+				property a 1.0;
+			}
+			object location {
+				property x 0.0;
+				property y -100.0;
+				property z -50.0;
+			}
+			property radius 100;
+		}
+	}
+	object line {
+		object line0 {
+			object color {
+				property r 0.07;
+				property g 0.22;
+				property b 0.66;
+				property a 1.0;
+			}
+			object location_a {
+				property x 100.0;
+				property y 0.0;
+				property z -50.0;
+			}
+			object location_b {
+				property x 50.0;
+				property y 0.0;
+				property z -50.0;
+			}
+			property radius 50;
+		}
+	}
+}
+
+

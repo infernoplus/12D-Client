@@ -1,0 +1,36 @@
+bsp=deathisland
+
+//Meshes in this bsp
+mesh<bsp/static/deathisland.static>=0,0.0,-500.0,0.2
+mesh<bsp/static/deathwater.static>=0,0.0,-500.0,0.2
+
+//Skybox for this bsp
+sky<graphics/model/sky/halo clear sky.model>
+
+//Information about the ortho sunlight for this bsp
+sunMapRadius<2048>
+sunRotation<-45,78>
+
+sunNearShadowDistance<256>
+sunOverlapShadowDistance<64>
+sunFarShadowDistance<1024>
+
+sunLightColor<0.91, 0.91, 0.88, 1>
+sunShadowColor<0.75, 0.88, 0.95, 0.4>
+sunMaxIntensity<1.0>
+sunMinIntensity<0.1>
+
+//Blue base blue lights
+glowLight<0.07,0.22,0.66,0.8>646.2982420727686,-27.97783527657027,-398.97499821595807,30
+glowLight<0.07,0.22,0.66,0.5>598.7949257292993,-74.41050266434696,-407.5349977493284,45
+glowLight<0.07,0.22,0.66,0.5>598.7431274053728,19.895567312942905,-408.7649954151359,45
+glowLight<0.07,0.22,0.66,0.6>537.9267912047494,10.482738852456261,-406.30499216616107,45
+glowLight<0.07,0.22,0.66,0.6>540.5597036157923,-70.28492773399293,-407.2299941312516,45
+glowLight<0.07,0.22,0.66,0.6>435.6512128444489,9.202486151215556,-405.44247790183795,45
+glowLight<0.07,0.22,0.66,0.6>435.69819639671437,-67.24074413663728,-406.32747947927504,45
+
+//Teleporters
+glowLight<0.07,0.66,0.22,0.6>487.46161640312914,-73.36323509458413,-406.5299835931504,45
+glowLight<0.07,0.66,0.22,0.6>487.2324057848071,15.865947544496674,-404.82998165637196,45
+
+%EOF

@@ -1,0 +1,5 @@
+object=deathisland
+model=graphics/model/bsp/deathisland.model
+collision=graphics/model/bsp/deathisland.collision
+
+%EOF

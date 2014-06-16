@@ -1,0 +1,27 @@
+//begin particle
+//	<particle filepath>
+//	<amount min>,<amount max>
+//	<spawn start time>,<spawn end time>
+//	<distribution method> (valid types: radial, plate, direction)
+//	<distribution angle x>,<y>,<z> (no effect on radial)
+//	<distribution spread> (only really applies to direction method) 
+//	<distribution equation> (valid types: linear, falloff, buildup, random)
+//	<velocity min>,<velocity max>
+//	<distribution center>
+//	<distribution radius>
+//end
+
+name=Bubble
+
+begin particle
+	graphics/effect/particle/bubble.particle
+	9,12
+	0,20
+	direction
+	0,1,0
+	0.01
+	random
+	0.3,1.6
+	0,0,0
+	0.1
+end

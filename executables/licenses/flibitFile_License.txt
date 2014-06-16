@@ -1,0 +1,50 @@
+/*
+ * flacFile: FLAC support for LWJGL OpenAL
+ * © 2011 Ethan "flibitijibibo" Lee
+ * http://www.flibitijibibo.com/
+ * LWJGL: http://www.lwjgl.org/
+ * jFLAC: http://jflac.sourceforge.net/
+ * 
+ * This Java class is free software.
+ * You are free to use it and modify it for any purpose under the following conditions:
+ * 1. This notice stays with the class, either in the header of the source code or
+ *    in an accompanying text file (i.e. flacFileLicense.txt).
+ * 2. You credit me in some form on your project
+ * 3. Please let me know what you are doing with this. This is not to be malicious or
+ * 	  to control what you are doing, but I like to know what projects I have helped.
+ *    My e-mail address is flibitijibibo@flibitijibibo.com
+ */
+
+/*
+ * pngFile: PNG support for LWJGL OpenGL
+ * © 2011 Ethan "flibitijibibo" Lee
+ * http://www.flibitijibibo.com/
+ * LWJGL: http://www.lwjgl.org/
+ * Themable Widget Library: http://twl.l33tlabs.org/
+ * 
+ * This Java class is free software.
+ * You are free to use it and modify it for any purpose under the following conditions:
+ * 1. This notice stays with the class, either in the header of the source code or
+ *    in an accompanying text file (i.e. pngFile_License.txt).
+ * 2. You credit me in some form on your project
+ * 3. Please let me know what you are doing with this. This is not to be malicious or
+ * 	  to control what you are doing, but I like to know what projects I have helped.
+ *    My e-mail address is flibitijibibo@flibitijibibo.com
+ */
+
+/*
+ * ttfFile: TrueType font support for LWJGL OpenGL
+ * © 2011 Ethan "flibitijibibo" Lee
+ * http://www.flibitijibibo.com/
+ * LWJGL: http://www.lwjgl.org/
+ * Original Class: http://lwjgl.org/forum/index.php?topic=2951.0
+ * 
+ * This Java class is free software.
+ * You are free to use it and modify it for any purpose under the following conditions:
+ * 1. This notice stays with the class, either in the header of the source code or
+ *    in an accompanying text file (i.e. ttfFile_License.txt).
+ * 2. You credit me in some form on your project
+ * 3. Please let me know what you are doing with this. This is not to be malicious or
+ * 	  to control what you are doing, but I like to know what projects I have helped.
+ *    My e-mail address is flibitijibibo@flibitijibibo.com
+ */

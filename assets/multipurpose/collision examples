@@ -1,0 +1,225 @@
+//EX OF SIMPLE COLLISION
+
+object collision {
+	object 0 {
+		property parent root;
+		
+		property type simple;
+		
+		property shape hull;
+		property mass 1;
+		property file "multipurpose/model/box.collision";
+		object location {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
+		object rotation {
+			property x 0;
+			property y 0;
+			property z 0;
+			property w 0;
+		}
+	}
+}
+
+//EX OF COMPOUND COLLISION
+
+object collision {
+	object 0 {
+		property parent root;
+		
+		property type compound;
+		object 0 {
+			property shape box;
+			property width 1;
+			property length 1;
+			property height 1;
+			
+			object location {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object rotation {
+				property x 0;
+				property y 0;
+				property z 0;
+				property w 0;
+			}
+		}
+		object 1 {
+			property shape sphere;
+			property radius 1;
+			
+			object location {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object rotation {
+				property x 0;
+				property y 0;
+				property z 0;
+				property w 0;
+			}
+		}
+		object 2 {
+			property shape cylinder;
+			property radius 1;
+			property height 1;
+			
+			object location {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object rotation {
+				property x 0;
+				property y 0;
+				property z 0;
+				property w 0;
+			}
+		}
+		object 3 {
+			property shape cone;
+			property radius 1;
+			property height 1;
+			
+			object location {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object rotation {
+				property x 0;
+				property y 0;
+				property z 0;
+				property w 0;
+			}
+		}
+		object 4 {
+			property shape capsule;
+			property radius 1;
+			property height 1;
+			
+			object location {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object rotation {
+				property x 0;
+				property y 0;
+				property z 0;
+				property w 0;
+			}
+		}
+		object 5 {
+			property shape hull;
+			property file "multipurpose/model/box.collision";
+			
+			object location {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object rotation {
+				property x 0;
+				property y 0;
+				property z 0;
+				property w 0;
+			}
+		}
+	}
+}
+
+
+object collision {
+	object 0 {
+		property parent root;
+		
+		property type simple;
+		
+		property shape hull;
+		property mass 1;
+		property file "multipurpose/model/box.collision";
+		object location {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
+		object rotation {
+			property x 0;
+			property y 0;
+			property z 0;
+			property w 0;
+		}
+	}
+}
+
+object collision {
+	object 0 {
+		property parent root;
+		
+		property type simple;
+		
+		property shape hull;
+		property mass 1;
+		property file "item/weapon/sniperrifle/sniperrifle.collision";
+		object location {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
+		object rotation {
+			property x 0;
+			property y 0;
+			property z 0;
+			property w 0;
+		}
+	}
+}
+
+
+object collision {
+	object 0 {
+		property parent root;
+		
+		property type compound;
+		
+		object 0 {
+			property shape hull;
+			property mass 1;
+			property file "item/weapon/sniperrifle/sniperrifle.collision";
+			object location {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object rotation {
+				property x 0;
+				property y 0;
+				property z 0;
+				property w 0;
+			}
+		}
+		object 0 {
+			property shape box;
+			property mass 1;
+			property width 1;
+			property length 1;
+			property height 10;
+			object location {
+				property x 0;
+				property y 0;
+				property z 0;
+			}
+			object rotation {
+				property x 0;
+				property y 0;
+				property z 0;
+				property w 0;
+			}
+		}
+	}
