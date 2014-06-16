@@ -1,9 +1,0 @@
-name=Bubble Effect
-loop=false
-
-begin particles
-	graphics/effect/particle/pkmnbubble.particlesystem
-	false
-	30
-	0
-end

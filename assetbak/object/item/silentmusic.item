@@ -1,7 +1,0 @@
-class=Item
-name=Silent Record
-
-model=graphics/model/primitive/box.obj
-physmodel=graphics/model/primitive/tinyBox.obj
-
-%EOF
