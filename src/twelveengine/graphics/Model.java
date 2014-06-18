@@ -485,7 +485,7 @@ public class Model {
 		}
 	}
 	
-	public void setAnimation(AnimationFrame f) {
+	public void setAnimation(AnimationFrame f) { //TODO: bug, multiple instances of a model that uses animations casues issues, seperate tehm somehow
 		int i = 0;
 		while(i < f.nodes.length) {
 			if(f.nodes[i].frame-1 < fr.length) {

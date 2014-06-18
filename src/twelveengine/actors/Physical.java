@@ -10,21 +10,20 @@ import com.bulletphysics.linearmath.Transform;
 import twelveengine.Game;
 import twelveengine.data.*;
 import twelveengine.graphics.*;
-import twelveengine.physics.BulletRigidBody;
+import twelveengine.physics.*;
 import twelveutil.*;
 
 public class Physical extends Actor {
 	
 	public ModelGroup model;
-	public CollisionShape collision; //Used for actual physics. Less complexity = better. Using primitive shapes is always good.
-	public BulletRigidBody hitbox; //Used for raytesting and other stuff. Should be pretty accurate to the visual model but less complexity is always nice.
+	public BulletRigidBody hitbox[]; //Used for raytesting and other stuff. Should be pretty accurate to the visual model but less complexity is always nice.
 	public AnimationGroup animations;
 	public Animation animation;
-	public BulletRigidBody physics;
+	public BulletRigidBody physics[];//Used for actual physics. Less complexity = better. Using primitive shapes is always good.
 	
 	public float scale;
 	
-	public int frame = 0, lastFrame = 0;
+	public AnimationFrame frame, lastFrame;
 	public boolean animate;
 	public boolean loop;
 	
@@ -44,7 +43,6 @@ public class Physical extends Actor {
 		mass = tag.getProperty("mass", 1f);
 		
 		model = game.getModelGroup(tag.getProperty("model", "multipurpose/model/box.model"));
-		collision = buildCollisionShape(tag.getObject("collision"));
 		
 		createHitboxObject();
 		
@@ -53,6 +51,8 @@ public class Physical extends Actor {
 			animations = game.getAnimation(tag.getProperty("animation", ""));
 			animation = animations.getAnimation(tag.getProperty("playanimation", "default"));
 			loop = tag.getProperty("loop", false);
+			frame = animation.frames[0];
+			lastFrame = animation.frames[0];
 		}
 		else
 			animate = false;
@@ -60,65 +60,100 @@ public class Physical extends Actor {
 		hitboxUpdate();
 	}
 	
+	//This method updates the animation of an object. Override this to do other things. By default it just plays animations if it's set to true and looping.
+	public int k = 0; //Frame.
+	public void animation() {
+		if(animate) {
+			if(k < animation.frames.length-1) {
+				lastFrame = frame;
+				frame = animation.frames[k];
+				k++;
+			}
+			else {
+				lastFrame = frame;
+				frame = animation.frames[k];
+				if(loop) {
+					k=0;
+				}
+			}
+		}
+	}
+	
 	public void createHitboxObject() {
-		Transform startTransform = new Transform();
-		startTransform.setIdentity();
-		startTransform.origin.set(0, 0, 0f);
-		hitbox = game.bsp.bullet.createStaticRigidBody(startTransform, buildCollisionShape(tag.getObject("hitbox")), "hitbox");
-		hitbox.setOwner(this);
+		int i = 0;
+		ParentedShape shps[] = buildCollisionShape(tag.getObject("hitbox"));
+		hitbox = new BulletRigidBody[shps.length];
+		while(i < shps.length) {
+			Transform startTransform = new Transform();
+			startTransform.setIdentity();
+			startTransform.origin.set(0, 0, 0f);
+			hitbox[i] = game.bsp.bullet.createStaticRigidBody(startTransform, shps[i].shape, shps[i].parent, "hitbox");
+			hitbox[i].setOwner(this);
+			i++;
+		}
 	}
 	
 	public void hitboxUpdate() {
-		if(hitbox == null)
-			return;
-		Vector3f p = new Vector3f();
-		Quat4f q = new Quat4f();
-		Transform t = new Transform();
-		t = hitbox.getWorldTransform(t);
-		p = hitbox.getCenterOfMassPosition(p);
-		t.setRotation(MathUtil.bConvert(rotation));
-		//hitbox.translate(new Vector3f(location.x - p.x, location.y - p.y, location.z - p.z));
-		hitbox.setWorldTransform(t);
-		hitbox.translate(new Vector3f(location.x - p.x, location.y - p.y, location.z - p.z));
+		int i = 0;
+		while(i < hitbox.length) { //TODO: currently just sticking them all at the center of the object, link them to the model plz.
+			if(hitbox == null)
+				return;
+			Vector3f p = new Vector3f();
+			Quat4f q = new Quat4f();
+			Transform t = new Transform();
+			t = hitbox[i].getWorldTransform(t);
+			p = hitbox[i].getCenterOfMassPosition(p);
+			t.setRotation(MathUtil.bConvert(rotation));
+			//hitbox.translate(new Vector3f(location.x - p.x, location.y - p.y, location.z - p.z));
+			hitbox[i].setWorldTransform(t);
+			hitbox[i].translate(new Vector3f(location.x - p.x, location.y - p.y, location.z - p.z));
+			i++;
+		}
 	}
 	
-	public CollisionShape buildCollisionShape(TagSubObject tag) {
-		TagSubObject t = tag.getObject(0); //TODO: loop this and set it up for attachments.
-		if(t.getProperty("type", "simple").equals("simple")) {
-			CollisionShape shp = buildShape(t);
-			CompoundShape cmpd = new CompoundShape();
-			Transform m = new Transform();
-			Vertex l = TagUtil.makeVertex(t.getObject("location"));
-			Quat r = TagUtil.makeQuat(t.getObject("rotation"));
-			m.transform(new Vector3f(l.x, l.y, l.z));
-			m.setRotation(new Quat4f(r.x, r.y, r.z, r.w));
-			cmpd.addChildShape(m, shp);
-			return cmpd;
-		}
-		else {
-			int i = 0;
-			CollisionShape shps[] = new CollisionShape[t.getTotalObjects()];
-			Vertex l[] = new Vertex[t.getTotalObjects()];
-			Quat r[] = new Quat[t.getTotalObjects()];
-			while(i < t.getTotalObjects()) {
-				TagSubObject tso = t.getObject(i);
-				shps[i] = buildShape(tso);
-				l[i] = TagUtil.makeVertex(tso.getObject("location"));
-				r[i] = TagUtil.makeQuat(tso.getObject("rotation"));
-				i++;
-			}
-			
-			i = 0;
-			CompoundShape cmpd = new CompoundShape();
-			while(i < shps.length) {
+	public ParentedShape[] buildCollisionShape(TagSubObject tag) {
+		int j = 0;
+		ParentedShape shps[] = new ParentedShape[tag.getTotalObjects()];
+		while(j < tag.getTotalObjects()) {
+			TagSubObject t = tag.getObject(j);
+			if(t.getProperty("type", "simple").equals("simple")) {
+				CollisionShape shp = buildShape(t);
+				CompoundShape cmpd = new CompoundShape();
 				Transform m = new Transform();
-				m.transform(new Vector3f(l[i].x, l[i].y, l[i].z));
-				m.setRotation(new Quat4f(r[i].x, r[i].y, r[i].z, r[i].w));
-				cmpd.addChildShape(m, shps[i]);
-				i++;
+				Vertex l = TagUtil.makeVertex(t.getObject("location"));
+				Quat r = TagUtil.makeQuat(t.getObject("rotation"));
+				m.transform(new Vector3f(l.x, l.y, l.z));
+				m.setRotation(new Quat4f(r.x, r.y, r.z, r.w));
+				cmpd.addChildShape(m, shp);
+				shps[j] = new ParentedShape(cmpd, t.getProperty("parent", "root"));
 			}
-			return cmpd;
+			else {
+				int i = 0;
+				CollisionShape cmps[] = new CollisionShape[t.getTotalObjects()];
+				Vertex l[] = new Vertex[t.getTotalObjects()];
+				Quat r[] = new Quat[t.getTotalObjects()];
+				while(i < t.getTotalObjects()) {
+					TagSubObject tso = t.getObject(i);
+					cmps[i] = buildShape(tso);
+					l[i] = TagUtil.makeVertex(tso.getObject("location"));
+					r[i] = TagUtil.makeQuat(tso.getObject("rotation"));
+					i++;
+				}
+				
+				i = 0;
+				CompoundShape cmpd = new CompoundShape();
+				while(i < cmps.length) {
+					Transform m = new Transform();
+					m.transform(new Vector3f(l[i].x, l[i].y, l[i].z));
+					m.setRotation(new Quat4f(r[i].x, r[i].y, r[i].z, r[i].w));
+					cmpd.addChildShape(m, cmps[i]);
+					i++;
+				}
+				shps[j] = new ParentedShape(cmpd, t.getProperty("parent", "root"));
+			}
+			j++;
 		}
+		return shps;
 	}
 	
 	public CollisionShape buildShape(TagSubObject t) {
@@ -153,65 +188,69 @@ public class Physical extends Actor {
 		}
 	}
 	
-
-	public void move(Vertex a) {
-		physics.translate(new Vector3f(a.x, a.y, a.z));
-		physics.activate();
-		Vector3f c = physics.getCenterOfMassPosition(new Vector3f());
+	//TODO: currently just moving the first of the physics objects, need to move the root and then move any other parts by the same amount. do this later.
+	public void move(Vertex a) { 
+		physics[0].translate(new Vector3f(a.x, a.y, a.z));
+		physics[0].activate();
+		Vector3f c = physics[0].getCenterOfMassPosition(new Vector3f());
 		location = new Vertex(c.x, c.y, c.z);
 	}
 	
 	public void rotate(Quat a) {
-		Quat4f q = physics.getOrientation(new Quat4f());
+		Quat4f q = physics[0].getOrientation(new Quat4f());
 		//TODO: IDR how to rotate a rotation...
 	}
 	
 	public void push(Vertex a) {
 		Vector3f v = new Vector3f();
-		v = physics.getLinearVelocity(v);
+		v = physics[0].getLinearVelocity(v);
 		Vector3f x = new Vector3f(a.x + v.x, a.y + v.y, a.z + v.z);
-		physics.setLinearVelocity(x);
-		physics.activate();
-		Vector3f e = physics.getLinearVelocity(new Vector3f());
+		physics[0].setLinearVelocity(x);
+		physics[0].activate();
+		Vector3f e = physics[0].getLinearVelocity(new Vector3f());
 		velocity = new Vertex(e.x, e.y, e.z);
 	}
 	
 	public void setLocation(Vertex a) {
 		Vector3f p = new Vector3f();
-		p = physics.getCenterOfMassPosition(p);
-		physics.translate(new Vector3f(a.x - p.x, a.y - p.y, a.z - p.z));
-		physics.activate();
-		Vector3f c = physics.getCenterOfMassPosition(new Vector3f());
+		p = physics[0].getCenterOfMassPosition(p);
+		physics[0].translate(new Vector3f(a.x - p.x, a.y - p.y, a.z - p.z));
+		physics[0].activate();
+		Vector3f c = physics[0].getCenterOfMassPosition(new Vector3f());
 		location = new Vertex(c.x, c.y, c.z);
 	}
 	
 	public void setRotation(Quat a) {
 		Transform tr = new Transform();
-		tr = physics.getCenterOfMassTransform(tr);
+		tr = physics[0].getCenterOfMassTransform(tr);
 		tr.setRotation(new Quat4f(a.x, a.y, a.z, a.w));
-		physics.setCenterOfMassTransform(tr);
-		Quat4f q = physics.getOrientation(new Quat4f());
+		physics[0].setCenterOfMassTransform(tr);
+		Quat4f q = physics[0].getOrientation(new Quat4f());
 		rotation = new Quat(q.x, q.y, q.z, q.w);
 	}
 	
 	public void setVelocity(Vertex a) {
 		Vector3f x = new Vector3f(a.x, a.y, a.z);
-		physics.setLinearVelocity(x);
-		physics.activate();
-		Vector3f e = physics.getLinearVelocity(new Vector3f());
+		physics[0].setLinearVelocity(x);
+		physics[0].activate();
+		Vector3f e = physics[0].getLinearVelocity(new Vector3f());
 		velocity = new Vertex(e.x, e.y, e.z);
 	}
 	
 	public void destroy() {
 		super.destroy();
-		physics.destroy();
+		int i = 0;
+		while(i < physics.length) {
+			physics[i].destroy();
+			i++;
+		}
 	}
 	
 	public void playAnimation(String a, boolean b) { //TODO:Make a flag so that it will return to previous animation after play MB MB
 		if(animation != null) {
-			frame = 0;
-			lastFrame = 0;
 			animation = animations.getAnimation(a);
+			frame = animation.frames[0];
+			lastFrame = animation.frames[0];
 			loop = b;
 		}
 	}
@@ -244,8 +283,8 @@ public class Physical extends Actor {
 	public void draw(ArrayList<TrianglePacket> meshes, float f) {	
 		Vertex l = MathUtil.lerp(lastLocation, location, f);
 		Quat r = rotation;
-		if(animate && animations != null)
-			model.pushToDrawQueue(meshes, l, r, MathUtil.interpolateFrame(animation.frames[lastFrame], animation.frames[frame], f), scale);
+		if(animate && frame != null && lastFrame != null) //TODO: really nesscary to check all this?
+			model.pushToDrawQueue(meshes, l, r, MathUtil.interpolateFrame(lastFrame, frame, f), scale);
 		else
 			model.pushToDrawQueue(meshes, l, r, scale);
 		int i = 0;

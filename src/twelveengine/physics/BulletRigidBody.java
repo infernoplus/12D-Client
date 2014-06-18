@@ -7,6 +7,7 @@ import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
 public class BulletRigidBody extends com.bulletphysics.dynamics.RigidBody {
 	
 	public Actor owner;
+	public String parent;
 
 	public BulletRigidBody(RigidBodyConstructionInfo constructionInfo) {
 		super(constructionInfo);

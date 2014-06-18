@@ -1,9 +1,11 @@
-property name "arms animation test object";
-property model "character/generic/model/arms.model";
-property animation "item/weapon/pistol/animation/pistol-animations.taf";
+property name "steve test object";
+property model "character/steve/model/steve.model";
+property animation "character/steve/animation/steve-animations.taf";
 
 property loop true;
-property playanimation reload;
+property playanimation idle;
+
+radius 5;
 
 object collision {
 	object 0 {
@@ -11,9 +13,11 @@ object collision {
 		
 		property type simple;
 		
-		property shape hull;
+		property shape box;
 		property mass 1;
-		property file "multipurpose/model/box.collision";
+		property width 0.8;
+		property length 2.2;
+		property height 4;
 		object location {
 			property x 0;
 			property y 0;

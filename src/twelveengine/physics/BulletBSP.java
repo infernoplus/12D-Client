@@ -128,11 +128,12 @@ public class BulletBSP {
 		public final short object = 2048;
 		public final short item = 4096;
 	
-	public BulletRigidBody createStaticRigidBody(Transform startTransform, CollisionShape shape, String mask) {
+	public BulletRigidBody createStaticRigidBody(Transform startTransform, CollisionShape shape, String parnt, String mask) {
 		Vector3f localInertia = new Vector3f(0f, 0f, 0f);
 		DefaultMotionState myMotionState = new DefaultMotionState(startTransform);
 		RigidBodyConstructionInfo cInfo = new RigidBodyConstructionInfo(0, myMotionState, shape, localInertia);
 		BulletRigidBody body = new BulletRigidBody(cInfo);
+		body.parent = parnt;
 		
 		if(mask.equals("world"))
 			dynamicsWorld.addRigidBody(body, world, (short)(player | object | item | ray));
@@ -141,12 +142,13 @@ public class BulletBSP {
 		return body;
 	}
 	
-	public BulletRigidBody createDynamicRigidBody(float mass, Transform startTransform, CollisionShape shape, String mask) {
+	public BulletRigidBody createDynamicRigidBody(float mass, Transform startTransform, CollisionShape shape, String parnt, String mask) {
 		Vector3f localInertia = new Vector3f(0f, 0f, 0f);
 		shape.calculateLocalInertia(mass, localInertia);
 		DefaultMotionState myMotionState = new DefaultMotionState(startTransform);
 		RigidBodyConstructionInfo cInfo = new RigidBodyConstructionInfo(mass, myMotionState, shape, localInertia);
 		BulletRigidBody body = new BulletRigidBody(cInfo);
+		body.parent = parnt;
 
 		if(mask.equals("player"))
 			dynamicsWorld.addRigidBody(body, player, (short)(world | player | object));
@@ -217,7 +219,7 @@ public class BulletBSP {
 				CollisionShape shape = new BvhTriangleMeshShape(mesh, true, true);
 				collisionShapes.add(shape);
 				
-				createStaticRigidBody(startTransform, shape, "world");
+				createStaticRigidBody(startTransform, shape, "root", "world");
 			}
 		}
 	}

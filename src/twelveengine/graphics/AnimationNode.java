@@ -12,4 +12,10 @@ public class AnimationNode {
 		location = x;
 		rotation = y;
 	}
+	
+	public AnimationNode(int id) {
+		frame = id;
+		location = new Vertex();
+		rotation = new Quat();
+	}
 }

@@ -30,12 +30,6 @@ public class Item extends RigidBody {
 			held();
 	}
 	
-	public void createPhysicsObject() {
-		BulletRigidBody r = game.bsp.bullet.createDynamicRigidBody(mass, new Transform(), collision, "item");
-		r.setOwner(this);
-		physics = r;
-	}
-	
 	//If this item is in somethings inventory and a game tick passes we call this method. It's to update it's location and to perform various actions on it.
 	public void held() {
 		
@@ -44,12 +38,16 @@ public class Item extends RigidBody {
 	//When this item i picked up into somethings inventory call this method.
 	public void picked(Actor a) {
 		owner = a;
-		physics.destroy();
+		int i = 0;
+		while(i < physics.length) {
+			physics[i].destroy();
+			i++;
+		}
 	}
 	
 	//When this item is dropped out of somethings inventory call this method. v = vector to drop the item, magnitude of v = velocity
 	public void drop(Vertex l, Vertex v, Quat r) {
-		createPhysicsObject();
+		createPhysicsObject(tag.getObject("collision"));
 		setLocation(l);
 		setVelocity(v);
 		setRotation(r);
@@ -59,20 +57,9 @@ public class Item extends RigidBody {
 		owner = null;
 	}
 	
-	public void draw(ArrayList<TrianglePacket> meshes, float f) {	
-		if(owner == null) {
-			Vertex l = MathUtil.lerp(lastLocation, location, f);
-			Quat r = rotation;
-			if(animations != null)
-				model.pushToDrawQueue(meshes, l, r, MathUtil.interpolateFrame(animation.frames[lastFrame], animation.frames[frame], f), scale);
-			else
-				model.pushToDrawQueue(meshes, l, r, scale);
-			int i = 0;
-			while(i < effects.size()) {
-				effects.get(i).draw(meshes, f);
-				i++;
-			}
-		}
+	public void draw(ArrayList<TrianglePacket> meshes, float f) {
+		if(owner == null)
+			super.draw(meshes, f);
 	}
 
 }

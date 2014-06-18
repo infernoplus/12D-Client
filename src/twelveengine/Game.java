@@ -72,11 +72,10 @@ public class Game {
 		
  		/*Actor b = createTag("character/generic/generic.pawn", 4, new Vertex(0,300,125), new Vertex(0,0,0), new Quat(0,0,0,0));
 		addActor(b);
-		player.givePawn((Pawn)b);
+		player.givePawn((Pawn)b);*/
 		
-		Actor a = createTag("character/generic/generic.pawn", 5, new Vertex(0,0, 0), new Vertex(0,0,0), new Quat(0,0,0,1));
+		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 100), new Vertex(0,0,0), new Quat(0,0,0,1));
 		addActor(a);
-		a.setLocation(new Vertex(0,300,75));
 	
 		//testHud.setScalar("shield bar fill", 0f, 0, 0, 0);
 		//testHud.setScalar("health bar fill", 0.5f, 0.9f, 0.88f, 0.254f);
@@ -128,11 +127,13 @@ public class Game {
 	
 	/*/** totes not debug method i promise meng **/
 	public void randomPhysicsBox() {
-		Actor a = createTag("scenery/box/box.rigidbody", -2, new Vertex(0,270,70), MathUtil.randomVertex(-1, 1), new Quat(0,0,0,1));
+		/*Actor a = createTag("scenery/box/box.rigidbody", -2, new Vertex(0,270,70), MathUtil.randomVertex(-1, 1), new Quat(0,0,0,1));
 		addActor(a);
 		a = createTag("item/weapon/sniperrifle/sniperrifle.item", -2, new Vertex(0,270,65), MathUtil.randomVertex(-1, 1), new Quat(0,0,0,1));
 		addActor(a);
 		a = createTag("item/weapon/assaultrifle/assaultrifle.item", -2, new Vertex(0,270,75), MathUtil.randomVertex(-1, 1), new Quat(0,0,0,1));
+		addActor(a);*/
+		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 125), new Vertex(0,0,0), new Quat(0,0,0,1));
 		addActor(a);
 	}
 	
@@ -192,6 +193,9 @@ public class Game {
 		
 		if(s.equals("rigidbody"))
 			a = new RigidBody(this, n, f, l, v, r);
+		
+		if(s.equals("ragdoll"))
+			a = new Ragdoll(this, n, f, l, v, r);
 		
 		if(s.equals("scenery"))
 			a = new Scenery(this, n, f, l, v, r);

@@ -167,11 +167,11 @@ public class Player {
 			pressed[toggleConsole] = false;
 		
 		/**Keybinds for some testing stuff, just uncomment and give it functions if you want to test something by binding it to a key**/
-		/*if(input.keyboard[info] && !pressed[info]) {
-			if(pawn != null) {
+		if(input.keyboard[info] && !pressed[info]) {
+			/*if(pawn != null) {
 				Actor a = game.createTag("item/weapon/test/test.hitscan", -1, MathUtil.add(pawn.location, new Vertex(0,0,pawn.eye)), pawn.look, new Quat());
 				game.addActor(a);
-			}
+			}*/
 			game.randomPhysicsBox();
 			//if(pawn != null)
 				//Log.log("vertex<REQUIREDINFORMATION>" + pawn.location.x + "," + pawn.location.y + "," + (pawn.location.z + 3), "PlayerCore");
@@ -182,7 +182,7 @@ public class Player {
 		else if(!input.keyboard[info] && pressed[info])
 			pressed[info] = false;
 		
-		if(input.keyboard[test] && !pressed[test]) {
+		/*if(input.keyboard[test] && !pressed[test]) {
 			//game.randomPhysicsBox();
 			pressed[test] = true;
 		}

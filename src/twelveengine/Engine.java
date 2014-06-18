@@ -17,6 +17,8 @@ import twelveutil.*;
 
 /** This is the big scary fucking list of doom, things that need to get DONE **/
 
+//TODO: Fix bug with multiple instances of an animated model. Priority #1 atm.
+
 //TODO: OPTIMIZE FUCKING EVERYTHING, ESPECIALLY SHADERS
 
 //TODO: [NEED TEST ANIMATIONS TO IMPLEMENT THIS]Rigged collision models, make an exporter and importer for basically boxes that are linked to frames in a PhysModel ~ 

@@ -11,56 +11,49 @@ import twelveengine.data.Quat;
 import twelveengine.data.Vertex;
 import twelveengine.graphics.TrianglePacket;
 import twelveengine.physics.BulletRigidBody;
+import twelveengine.physics.ParentedShape;
 import twelveutil.MathUtil;
+import twelveutil.TagSubObject;
 
 public class Scenery extends Physical {	
 	public Scenery(Game w, int n, String f, Vertex l, Vertex v, Quat r) {
 		super(w, n, f, l, v, r);
 		internalName += ":Scenery";
-		createPhysicsObject();
+		createPhysicsObject(tag.getObject("collision"));
 		setLocation(l);
 		setRotation(r);
 		setVelocity(v);
 	}
 	
-	public void createPhysicsObject() {
-		Transform startTransform = new Transform();
-		startTransform.setIdentity();
-		BulletRigidBody r = game.bsp.bullet.createStaticRigidBody(startTransform, collision, "world");
-		r.setOwner(this);
-		physics = r;
+	public void createPhysicsObject(TagSubObject pt) {
+		int i = 0;
+		ParentedShape[] shps = buildCollisionShape(pt);
+		physics = new BulletRigidBody[shps.length];
+		while(i < shps.length) {
+			Transform startTransform = new Transform();
+			startTransform.setIdentity();
+			startTransform.origin.set(0, 0, 0f);
+			physics[i] = game.bsp.bullet.createStaticRigidBody(new Transform(), shps[i].shape, shps[i].parent, "world");
+			physics[i].setOwner(this);
+			i++;
+		}
 	}
 	
 	//Normal animation system
-	public int k = 0;
 	public void step() {
 		super.step();
-		if(animate) {
-			lastFrame = frame;
-			if(frame < animation.frames.length-1)
-				frame++;
-			else
-				if(loop) {
-					animation = animations.animations[k];
-					if(k < animations.animations.length-1)
-						k++;
-					else
-						k = 0;
-					frame = 0;
-					lastFrame = 0;
-				}
-		}
+		animation();
 		effects();
 		physics();
 		hitboxUpdate();
 	}
 	
-	//TODO: this.
-	public void physics() {
+	//TODO: this. 
+	public void physics() {	//TODO:Using physics[0] for the location of the model for now.
 		//Get current state of bullet physics object
-		Vector3f c = physics.getCenterOfMassPosition(new Vector3f());
-		Vector3f v = physics.getLinearVelocity(new Vector3f());
-		Quat4f q = physics.getOrientation(new Quat4f());
+		Vector3f c = physics[0].getCenterOfMassPosition(new Vector3f());
+		Vector3f v = physics[0].getLinearVelocity(new Vector3f());
+		Quat4f q = physics[0].getOrientation(new Quat4f());
 		//Apply it to actor.
 		location = new Vertex(c.x, c.y, c.z);
 		rotation = new Quat(q.x, q.y, q.z, q.w);

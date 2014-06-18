@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.vecmath.Quat4f;
 import javax.vecmath.Vector3f;
 
+import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.linearmath.Transform;
 
 import twelveengine.Game;
@@ -14,6 +15,7 @@ import twelveengine.data.Vertex;
 import twelveengine.graphics.TrianglePacket;
 import twelveengine.physics.*;
 import twelveutil.MathUtil;
+import twelveutil.TagSubObject;
 
 public class Biped extends Physical {	
 	public Vertex move;
@@ -60,43 +62,51 @@ public class Biped extends Physical {
 		maxHealth = tag.getProperty("maxhealth", 100f);
 		health = maxHealth;
 		
-		createPhysicsObject();
+		createPhysicsObject(tag.getObject("collision"));
 		setLocation(l);
 		setRotation(r);
 		setVelocity(v);
 	}
 	
 	//Creates and adds this actors physics object to the bullet physics method.
-	//TODO: Why exactly did I decided to call them both RigidBody.....
-	public void createPhysicsObject() {
-		BulletRigidBody r = game.bsp.bullet.createDynamicRigidBody(mass, new Transform(), collision, "player");
-		r.setSleepingThresholds(0.0f, 0.0f);
-		r.setAngularFactor(0.0f);
-		r.setFriction(friction);
-		r.setOwner(this);
-		physics = r;
+	public void createPhysicsObject(TagSubObject pt) {
+		int i = 0;
+		ParentedShape[] shps = buildCollisionShape(pt);
+		physics = new BulletRigidBody[shps.length];
+		while(i < shps.length) {
+			Transform startTransform = new Transform();
+			startTransform.setIdentity();
+			startTransform.origin.set(0, 0, 0f);
+			physics[i] = game.bsp.bullet.createDynamicRigidBody(mass, new Transform(), shps[i].shape, shps[i].parent, "player");
+			physics[i].setSleepingThresholds(0.0f, 0.0f);
+			physics[i].setAngularFactor(0.0f);
+			physics[i].setFriction(friction);
+			physics[i].setOwner(this);
+			i++;
+		}
 	}
 	
 	public void step() {
 		super.step();
 		if(dead)
 			return;
+		animation();
 		physics();
 		hitboxUpdate();
 	}
 	
 	//TODO: this.
-	public void physics() {
+	public void physics() { 	//TODO:Using physics[0] for the location of the model for now.
 		//Get current state of bullet physics object
-		Vector3f c = physics.getCenterOfMassPosition(new Vector3f());
-		Vector3f v = physics.getLinearVelocity(new Vector3f());
-		Quat4f q = physics.getOrientation(new Quat4f());
+		Vector3f c = physics[0].getCenterOfMassPosition(new Vector3f());
+		Vector3f v = physics[0].getLinearVelocity(new Vector3f());
+		Quat4f q = physics[0].getOrientation(new Quat4f());
 		//Apply it to actor.
 		location = new Vertex(c.x, c.y, c.z);
 		rotation = new Quat(q.x, q.y, q.z, q.w);
 		velocity = new Vertex(v.x, v.y, v.z);
 		
-		onGround = game.bsp.bullet.isOnGround(physics, new Vector3f(0,0,-3.0f));
+		onGround = game.bsp.bullet.isOnGround(physics[0], new Vector3f(0,0,-3.0f));
 		
 		Vertex x = new Vertex(v.x, v.y, v.z);
 		float i = MathUtil.magnitude(x);
@@ -170,11 +180,6 @@ public class Biped extends Physical {
 		if(m.equals("movespeed")) {
 			moveSpeed = Float.parseFloat(p[0]);
 		}
-	}
-	
-	public void destroy() {
-		super.destroy();
-		physics.destroy();
 	}
 
 }
