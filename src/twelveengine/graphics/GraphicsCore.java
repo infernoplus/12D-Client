@@ -320,7 +320,6 @@ public class GraphicsCore {
         if (ARBShaderObjects.glGetObjectParameteriARB(k, ARBShaderObjects.GL_OBJECT_VALIDATE_STATUS_ARB) == GL11.GL_FALSE) {
         	Log.log("Failed to validate glsl shader~", "Graphics", 2);
             Log.log(GL20.glGetProgramInfoLog(k, 9999999), "Graphics", 2);
-            Log.log(frag, "wut", 3);
         	return -1;
         }
         
