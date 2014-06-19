@@ -23,4 +23,8 @@ public class Frame {
 	public Vertex shiftLocation() {
 		return MathUtil.subtract(location, defaultLocation);
 	}
+
+	public Frame copy() {
+		return new Frame(index, name, location, rotation);
+	}
 }

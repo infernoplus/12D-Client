@@ -55,20 +55,7 @@ public class Ragdoll extends RigidBody {
 		frame = nufrm;
 	}
 	
-	public Frame getParentFrame(String name) {
-		int i = 0;
-		while(i < model.models[0].fr.length) {
-			if(model.models[0].fr[i].name.equals(name)) {
-				//Log.log(model.models[0].fr[i].name + " = " + model.models[0].fr[i].name, "Animation");
-				return model.models[0].fr[i];
-			}
-			i++;
-		}
-		//Log.log(model.models[0].fr[0].name + " = " + model.models[0].fr[i].name, "Animation");
-		return model.models[0].fr[0];
-	}
-	
-	//TODO: overiring the functions in physical, dunno if ill change this later
+	//TODO: overiring these functions in physical, dunno if ill change this later
 	public void move(Vertex a) { 
 		int i = 0;
 		while(i < physics.length) {
@@ -104,10 +91,11 @@ public class Ragdoll extends RigidBody {
 		while(i < physics.length) {
 			Vector3f p = new Vector3f();
 			p = physics[i].getCenterOfMassPosition(p);
-			physics[i].translate(new Vector3f(a.x - p.x, a.y - p.y, a.z - p.z));
+			physics[i].translate(new Vector3f(a.x - p.x + physics[i].offset.x, a.y - p.y + physics[i].offset.y, a.z - p.z + physics[i].offset.z));
 			physics[i].activate();
 			Vector3f c = physics[i].getCenterOfMassPosition(new Vector3f());
 			location = new Vertex(c.x, c.y, c.z);
+			Log.log(physics[i].parent + " @ " + MathUtil.toString(location) + " : " + "null" + " - Ind: " + i, "Animation");
 			i++;
 		}
 	}

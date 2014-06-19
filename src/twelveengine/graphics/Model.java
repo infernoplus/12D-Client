@@ -485,15 +485,22 @@ public class Model {
 		}
 	}
 	
-	public void setAnimation(AnimationFrame f) { //TODO: bug, multiple instances of a model that uses animations casues issues, seperate tehm somehow
+	public Frame[] setAnimation(AnimationFrame f) {//TODO: slow?
 		int i = 0;
+		Frame frms[] = new Frame[fr.length];
+		while(i < frms.length) {
+			frms[i] = fr[i].copy();
+			i++;
+		}
+		i = 0;
 		while(i < f.nodes.length) {
 			if(f.nodes[i].frame-1 < fr.length) {
-				fr[f.nodes[i].frame-1].location = (f.nodes[i].location);
-				fr[f.nodes[i].frame-1].rotation = (f.nodes[i].rotation);
+				frms[f.nodes[i].frame-1].location = (f.nodes[i].location);
+				frms[f.nodes[i].frame-1].rotation = (f.nodes[i].rotation);
 			}
 			i++;
 		}
+		return frms;
 	}
 	
 	public Marker getMarker(String s) {
@@ -560,9 +567,8 @@ public class Model {
 	public void pushToDrawQueue(ArrayList<TrianglePacket> meshes, Vertex l, Quat r, AnimationFrame frm, float scale, float ra) {
 		int i = 0;
 		TrianglePacket tp;
-		setAnimation(frm);
 		while(i < sh.size()) {
-			tp = new TrianglePacket(buffer[i], bufSize[i], sh.get(i), l, r, skinned, fr, scale, ra);
+			tp = new TrianglePacket(buffer[i], bufSize[i], sh.get(i), l, r, skinned, setAnimation(frm), scale, ra);
 			meshes.add(tp);
 			i++;
 		}
@@ -572,9 +578,8 @@ public class Model {
 	public void pushToDrawQueue(ArrayList<TrianglePacket> meshes, Vertex l, Quat r, AnimationFrame frm, float scale) {
 		int i = 0;
 		TrianglePacket tp;
-		setAnimation(frm);
 		while(i < sh.size()) {
-			tp = new TrianglePacket(buffer[i], bufSize[i], sh.get(i), l, r, skinned, fr, scale, radius*scale);
+			tp = new TrianglePacket(buffer[i], bufSize[i], sh.get(i), l, r, skinned, setAnimation(frm), scale, radius*scale);
 			meshes.add(tp);
 			i++;
 		}		
@@ -584,9 +589,8 @@ public class Model {
 	public void pushToDrawQueue(ArrayList<TrianglePacket> meshes, Vertex l, Quat r, AnimationFrame frm, float scale, float ra, float scalar[]) {
 		int i = 0;
 		TrianglePacket tp;
-		setAnimation(frm);
 		while(i < sh.size()) {
-			tp = new TrianglePacket(buffer[i], bufSize[i], sh.get(i), l, r, skinned, fr, scale, ra, scalar);
+			tp = new TrianglePacket(buffer[i], bufSize[i], sh.get(i), l, r, skinned, setAnimation(frm), scale, ra, scalar);
 			meshes.add(tp);
 			i++;
 		}
@@ -596,9 +600,8 @@ public class Model {
 	public void pushToDrawQueue(ArrayList<TrianglePacket> meshes, Vertex l, Quat r, AnimationFrame frm, float scale, float scalar[]) {
 		int i = 0;
 		TrianglePacket tp;
-		setAnimation(frm);
 		while(i < sh.size()) {
-			tp = new TrianglePacket(buffer[i], bufSize[i], sh.get(i), l, r, skinned, fr, scale, radius*scale, scalar);
+			tp = new TrianglePacket(buffer[i], bufSize[i], sh.get(i), l, r, skinned, setAnimation(frm), scale, radius*scale, scalar);
 			meshes.add(tp);
 			i++;
 		}

@@ -70,11 +70,11 @@ public class Game {
  		a = createTag("scenery/anim/arms.scenery", 3, new Vertex(0,300,75), new Vertex(0,0,0), new Quat(0,0,0,0));
 		addActor(a);**/
 		
- 		/*Actor b = createTag("character/generic/generic.pawn", 4, new Vertex(0,300,125), new Vertex(0,0,0), new Quat(0,0,0,0));
+ 		Actor b = createTag("character/generic/generic.pawn", 4, new Vertex(0,300,125), new Vertex(0,0,0), new Quat(0,0,0,0));
 		addActor(b);
-		player.givePawn((Pawn)b);*/
+		player.givePawn((Pawn)b);
 		
-		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 100), new Vertex(0,0,0), new Quat(0,0,0,1));
+		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 25), new Vertex(0,0,0), new Quat(0,0,0,1));
 		addActor(a);
 	
 		//testHud.setScalar("shield bar fill", 0f, 0, 0, 0);

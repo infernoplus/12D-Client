@@ -8,6 +8,7 @@ import com.bulletphysics.collision.shapes.CollisionShape;
 import com.bulletphysics.linearmath.Transform;
 
 import twelveengine.Game;
+import twelveengine.Log;
 import twelveengine.data.*;
 import twelveengine.graphics.*;
 import twelveengine.physics.*;
@@ -35,6 +36,10 @@ public class RigidBody extends Physical {
 			startTransform.setIdentity();
 			startTransform.origin.set(0, 0, 0f);
 			physics[i] = game.bsp.bullet.createDynamicRigidBody(mass, new Transform(), shps[i].shape, shps[i].parent, "object");
+			Frame fr = getParentFrame(physics[i].parent);
+			physics[i].offset = fr.location.copy();
+			physics[i].orientation = fr.rotation.copy();
+			Log.log("P/c " + fr.name + "/" + physics[i].parent + " loc/rot " + MathUtil.toString(physics[i].offset) + "/" + MathUtil.toString(physics[i].orientation), "Physics");
 			physics[i].setOwner(this);
 			i++;
 		}
@@ -60,6 +65,20 @@ public class RigidBody extends Physical {
 		location = new Vertex(c.x, c.y, c.z);
 		rotation = new Quat(q.x, q.y, q.z, q.w);
 		velocity = new Vertex(v.x, v.y, v.z);
+	}
+	
+	//Originally in ragdoll but I moved it here so I could also use this same method to find the default offset of physics objects and save it in the BulletRigidBody object.
+	public Frame getParentFrame(String name) {
+		int i = 0;
+		while(i < model.models[0].fr.length) {
+			if(model.models[0].fr[i].name.equals(name)) {
+				//Log.log(model.models[0].fr[i].name + " = " + model.models[0].fr[i].name, "Animation");
+				return model.models[0].fr[i];
+			}
+			i++;
+		}
+		//Log.log(model.models[0].fr[0].name + " = " + model.models[0].fr[i].name, "Animation");
+		return model.models[0].fr[0];
 	}
 	
 	public void draw(ArrayList<TrianglePacket> meshes, float f) {	
