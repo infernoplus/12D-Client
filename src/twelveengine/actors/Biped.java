@@ -78,6 +78,7 @@ public class Biped extends Physical {
 			startTransform.setIdentity();
 			startTransform.origin.set(0, 0, 0f);
 			physics[i] = game.bsp.bullet.createDynamicRigidBody(mass, new Transform(), shps[i].shape, shps[i].parent, "player");
+			physics[i].centerOffset = shps[i].offset;
 			physics[i].setSleepingThresholds(0.0f, 0.0f);
 			physics[i].setAngularFactor(0.0f);
 			physics[i].setFriction(friction);

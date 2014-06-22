@@ -17,7 +17,7 @@ import twelveutil.*;
 
 /** This is the big scary fucking list of doom, things that need to get DONE **/
 
-//TODO: Fix bug with multiple instances of an animated model. Priority #1 atm.
+//TODO: Add the functionality that is in Physics to Hitboxes so that hitboxes can follow parts of animated models.
 
 //TODO: OPTIMIZE FUCKING EVERYTHING, ESPECIALLY SHADERS
 

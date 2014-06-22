@@ -8,6 +8,7 @@ import com.bulletphysics.collision.shapes.*;
 import com.bulletphysics.linearmath.Transform;
 
 import twelveengine.Game;
+import twelveengine.Log;
 import twelveengine.data.*;
 import twelveengine.graphics.*;
 import twelveengine.physics.*;
@@ -19,6 +20,7 @@ public class Physical extends Actor {
 	public BulletRigidBody hitbox[]; //Used for raytesting and other stuff. Should be pretty accurate to the visual model but less complexity is always nice.
 	public AnimationGroup animations;
 	public Animation animation;
+	public int root; 
 	public BulletRigidBody physics[];//Used for actual physics. Less complexity = better. Using primitive shapes is always good.
 	
 	public float scale;
@@ -58,6 +60,7 @@ public class Physical extends Actor {
 			animate = false;
 		
 		hitboxUpdate();
+		root = 0; //TODO: Currently we are just using 0 but we NEED to set up a sytem to decide which phsyics object is the root.
 	}
 	
 	//This method updates the animation of an object. Override this to do other things. By default it just plays animations if it's set to true and looping.
@@ -120,16 +123,18 @@ public class Physical extends Actor {
 				CollisionShape shp = buildShape(t);
 				CompoundShape cmpd = new CompoundShape();
 				Transform m = new Transform();
+				Vertex o = TagUtil.makeVertex(t.getObject("offset"));
 				Vertex l = TagUtil.makeVertex(t.getObject("location"));
 				Quat r = TagUtil.makeQuat(t.getObject("rotation"));
 				m.transform(new Vector3f(l.x, l.y, l.z));
 				m.setRotation(new Quat4f(r.x, r.y, r.z, r.w));
 				cmpd.addChildShape(m, shp);
-				shps[j] = new ParentedShape(cmpd, t.getProperty("parent", "root"));
+				shps[j] = new ParentedShape(cmpd, t.getProperty("parent", "root"), o);
 			}
 			else {
 				int i = 0;
 				CollisionShape cmps[] = new CollisionShape[t.getTotalObjects()];
+				Vertex o = TagUtil.makeVertex(t.getObject("offset"));
 				Vertex l[] = new Vertex[t.getTotalObjects()];
 				Quat r[] = new Quat[t.getTotalObjects()];
 				while(i < t.getTotalObjects()) {
@@ -149,7 +154,7 @@ public class Physical extends Actor {
 					cmpd.addChildShape(m, cmps[i]);
 					i++;
 				}
-				shps[j] = new ParentedShape(cmpd, t.getProperty("parent", "root"));
+				shps[j] = new ParentedShape(cmpd, t.getProperty("parent", "root"), o);
 			}
 			j++;
 		}
@@ -190,51 +195,52 @@ public class Physical extends Actor {
 	
 	//TODO: currently just moving the first of the physics objects, need to move the root and then move any other parts by the same amount. do this later.
 	public void move(Vertex a) { 
-		physics[0].translate(new Vector3f(a.x, a.y, a.z));
-		physics[0].activate();
-		Vector3f c = physics[0].getCenterOfMassPosition(new Vector3f());
-		location = new Vertex(c.x, c.y, c.z);
+		int i = 0;
+		while(i < physics.length) {
+			physics[i].move(a);
+			i++;
+		}
+		location = physics[root].getLocation();
 	}
 	
 	public void rotate(Quat a) {
-		Quat4f q = physics[0].getOrientation(new Quat4f());
 		//TODO: IDR how to rotate a rotation...
 	}
 	
 	public void push(Vertex a) {
-		Vector3f v = new Vector3f();
-		v = physics[0].getLinearVelocity(v);
-		Vector3f x = new Vector3f(a.x + v.x, a.y + v.y, a.z + v.z);
-		physics[0].setLinearVelocity(x);
-		physics[0].activate();
-		Vector3f e = physics[0].getLinearVelocity(new Vector3f());
-		velocity = new Vertex(e.x, e.y, e.z);
+		int i = 0;
+		while(i < physics.length) {
+			physics[i].push(a);
+			i++;
+		}
+		velocity = physics[root].getVelocity();
 	}
 	
 	public void setLocation(Vertex a) {
-		Vector3f p = new Vector3f();
-		p = physics[0].getCenterOfMassPosition(p);
-		physics[0].translate(new Vector3f(a.x - p.x, a.y - p.y, a.z - p.z));
-		physics[0].activate();
-		Vector3f c = physics[0].getCenterOfMassPosition(new Vector3f());
-		location = new Vertex(c.x, c.y, c.z);
+		int i = 0;
+		while(i < physics.length) {
+			physics[i].setLocation(a);
+			i++;
+		}
+		location = physics[root].getLocation();
 	}
 	
 	public void setRotation(Quat a) {
-		Transform tr = new Transform();
-		tr = physics[0].getCenterOfMassTransform(tr);
-		tr.setRotation(new Quat4f(a.x, a.y, a.z, a.w));
-		physics[0].setCenterOfMassTransform(tr);
-		Quat4f q = physics[0].getOrientation(new Quat4f());
-		rotation = new Quat(q.x, q.y, q.z, q.w);
+		int i = 0;
+		while(i < physics.length) {
+			physics[i].setRotation(a);
+			i++;
+		}
+		rotation = physics[root].getRotation();
 	}
 	
 	public void setVelocity(Vertex a) {
-		Vector3f x = new Vector3f(a.x, a.y, a.z);
-		physics[0].setLinearVelocity(x);
-		physics[0].activate();
-		Vector3f e = physics[0].getLinearVelocity(new Vector3f());
-		velocity = new Vertex(e.x, e.y, e.z);
+		int i = 0;
+		while(i < physics.length) {
+			physics[i].setVelocity(a);
+			i++;
+		}
+		velocity = physics[root].getVelocity();
 	}
 	
 	public void destroy() {

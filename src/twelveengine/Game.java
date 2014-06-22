@@ -70,9 +70,9 @@ public class Game {
  		a = createTag("scenery/anim/arms.scenery", 3, new Vertex(0,300,75), new Vertex(0,0,0), new Quat(0,0,0,0));
 		addActor(a);**/
 		
- 		Actor b = createTag("character/generic/generic.pawn", 4, new Vertex(0,300,125), new Vertex(0,0,0), new Quat(0,0,0,0));
-		addActor(b);
-		player.givePawn((Pawn)b);
+ 		//Actor b = createTag("character/generic/generic.pawn", 4, new Vertex(0,250,25), new Vertex(0,0,0), new Quat(0,0,0,0));
+		//addActor(b);
+		//player.givePawn((Pawn)b);
 		
 		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 25), new Vertex(0,0,0), new Quat(0,0,0,1));
 		addActor(a);
@@ -133,7 +133,7 @@ public class Game {
 		addActor(a);
 		a = createTag("item/weapon/assaultrifle/assaultrifle.item", -2, new Vertex(0,270,75), MathUtil.randomVertex(-1, 1), new Quat(0,0,0,1));
 		addActor(a);*/
-		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 125), new Vertex(0,0,0), new Quat(0,0,0,1));
+		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 13), new Vertex(0,0,0), new Quat(0,0,0,1));
 		addActor(a);
 	}
 	

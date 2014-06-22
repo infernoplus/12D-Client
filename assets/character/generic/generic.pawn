@@ -51,6 +51,11 @@ object hitbox {
 		property mass 5;
 		property radius 1.5;
 		property height 2.5;
+		object offset {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
 		object location {
 			property x 0;
 			property y 0;

@@ -484,7 +484,7 @@ public class Shader {
 			"		", 
 			"		//Average the rotations by weight and apply them", 
 			"		i=0;", 
-			"		vec4 final;",
+			"		vec4 final = vec4(0,0,0,1);",
 			"		normal = vec3(0,0,0);",
 			"		while(i < 3) {", 
 			"			final.x += (rot[i].x * weights[i]);", 

@@ -37,9 +37,10 @@ public class RigidBody extends Physical {
 			startTransform.origin.set(0, 0, 0f);
 			physics[i] = game.bsp.bullet.createDynamicRigidBody(mass, new Transform(), shps[i].shape, shps[i].parent, "object");
 			Frame fr = getParentFrame(physics[i].parent);
-			physics[i].offset = fr.location.copy();
-			physics[i].orientation = fr.rotation.copy();
-			Log.log("P/c " + fr.name + "/" + physics[i].parent + " loc/rot " + MathUtil.toString(physics[i].offset) + "/" + MathUtil.toString(physics[i].orientation), "Physics");
+			physics[i].centerOffset = shps[i].offset;
+			physics[i].boneOffset = fr.location.copy();
+			physics[i].boneOrientation = fr.rotation.copy();
+			//Log.log("P/c " + fr.name + "/" + physics[i].parent + " loc/rot " + MathUtil.toString(physics[i].boneOffset) + "/" + MathUtil.toString(physics[i].boneOrientation), "Physics");
 			physics[i].setOwner(this);
 			i++;
 		}
@@ -57,14 +58,10 @@ public class RigidBody extends Physical {
 	public void physics() {
 		if(physics == null)
 			return;
-		//Get current state of bullet physics object
-		Vector3f c = physics[0].getCenterOfMassPosition(new Vector3f());
-		Vector3f v = physics[0].getLinearVelocity(new Vector3f());
-		Quat4f q = physics[0].getOrientation(new Quat4f());
-		//Apply it to actor.
-		location = new Vertex(c.x, c.y, c.z);
-		rotation = new Quat(q.x, q.y, q.z, q.w);
-		velocity = new Vertex(v.x, v.y, v.z);
+		//Get current state of teh root bullet physics object and apply it to this actor
+		location = physics[root].getLocation();
+		rotation = physics[root].getRotation();
+		velocity = physics[root].getVelocity();
 	}
 	
 	//Originally in ragdoll but I moved it here so I could also use this same method to find the default offset of physics objects and save it in the BulletRigidBody object.
