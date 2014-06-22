@@ -14,7 +14,7 @@ object collision {
 		property mass 1;
 		property width 0.5;
 		property length 1.2;
-		property height 1.7;
+		property height 1.0;
 		object offset {
 			property x 0;
 			property y 0;
@@ -150,7 +150,7 @@ object collision {
 		
 		property constraint none;
 	}
-	object 1 {
+	object 5 {
 		property parent "frame left leg";
 		
 		property type simple;
@@ -176,12 +176,10 @@ object collision {
 			property z 0;
 			property w 0;
 		}
-	}
-	
-	property constraint hinge;
-	property parent "frame spine";
-	object limits {
-	
+		property constraint hinge;
+		object limits {
+			property parent "frame spine";
+		}
 	}
 }
 

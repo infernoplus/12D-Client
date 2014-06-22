@@ -12,6 +12,11 @@ object collision {
 		property shape hull;
 		property mass 1;
 		property file "multipurpose/model/box.collision";
+		object offset {
+			property x 0;
+			property y 0;
+			property z 0;
+		}
 		object location {
 			property x 0;
 			property y 0;

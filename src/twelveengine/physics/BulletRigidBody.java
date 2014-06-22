@@ -7,6 +7,7 @@ import twelveengine.Log;
 import twelveengine.actors.*;
 import twelveengine.data.*;
 import twelveutil.MathUtil;
+import twelveutil.TagSubObject;
 
 import com.bulletphysics.dynamics.RigidBodyConstructionInfo;
 import com.bulletphysics.linearmath.Transform;
@@ -22,6 +23,7 @@ public class BulletRigidBody extends com.bulletphysics.dynamics.RigidBody {
 	public Vertex centerOffset;
 	public Vertex boneOffset;
 	public Quat boneOrientation;
+	public TagSubObject tag;
 	
 	public BulletRigidBody(RigidBodyConstructionInfo constructionInfo) {
 		super(constructionInfo);

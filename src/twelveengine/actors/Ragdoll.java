@@ -50,5 +50,19 @@ public class Ragdoll extends RigidBody {
 		}
 		lastFrame = frame;
 		frame = nufrm;
-	}	
+	}
+	
+	public void draw(ArrayList<TrianglePacket> meshes, float f) {	
+		Vertex l = MathUtil.lerp(lastLocation, location, f);
+		Quat r = rotation;
+		if(animate && frame != null && lastFrame != null) //TODO: really nesscary to check all this?
+			model.pushToDrawQueue(meshes, l, new Quat(), MathUtil.interpolateFrame(lastFrame, frame, f), scale);
+		else
+			model.pushToDrawQueue(meshes, l, new Quat(), scale);
+		int i = 0;
+		while(i < effects.size()) {
+			effects.get(i).draw(meshes, f);
+			i++;
+		}
+	}
 }

@@ -2,6 +2,10 @@ package twelveengine;
 
 import java.util.ArrayList;
 
+import javax.vecmath.Vector3f;
+
+import com.bulletphysics.dynamics.constraintsolver.Point2PointConstraint;
+
 import twelveengine.actors.*;
 import twelveengine.audio.*;
 import twelveengine.bsp.*;
@@ -70,12 +74,21 @@ public class Game {
  		a = createTag("scenery/anim/arms.scenery", 3, new Vertex(0,300,75), new Vertex(0,0,0), new Quat(0,0,0,0));
 		addActor(a);**/
 		
- 		//Actor b = createTag("character/generic/generic.pawn", 4, new Vertex(0,250,25), new Vertex(0,0,0), new Quat(0,0,0,0));
-		//addActor(b);
-		//player.givePawn((Pawn)b);
+ 		Actor b = createTag("character/generic/generic.pawn", 4, new Vertex(0,250,25), new Vertex(0,0,0), new Quat(0,0,0,0));
+		addActor(b);
+		player.givePawn((Pawn)b);
 		
 		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 25), new Vertex(0,0,0), new Quat(0,0,0,1));
 		addActor(a);
+		
+		Actor c  = createTag("scenery/box/box.rigidbody", -1, new Vertex(15,225,30), new Vertex(), new Quat());
+		addActor(c);
+		Actor d  = createTag("scenery/box/box.rigidbody", -1, new Vertex(15,225,30), new Vertex(), new Quat());
+		addActor(d);
+		
+		Point2PointConstraint constraint = new Point2PointConstraint(((Physical)(c)).physics[0], ((Physical)(d)).physics[0], new Vector3f(5,5,5), new Vector3f(5,5,5));
+		bsp.bullet.getDynamicsWorld().addConstraint(constraint, false);
+		
 	
 		//testHud.setScalar("shield bar fill", 0f, 0, 0, 0);
 		//testHud.setScalar("health bar fill", 0.5f, 0.9f, 0.88f, 0.254f);

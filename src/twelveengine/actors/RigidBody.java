@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import javax.vecmath.*;
 
-import com.bulletphysics.collision.shapes.CollisionShape;
+import com.bulletphysics.BulletGlobals;
+import com.bulletphysics.collision.shapes.*;
 import com.bulletphysics.linearmath.Transform;
+import com.bulletphysics.dynamics.constraintsolver.*;
 
 import twelveengine.Game;
 import twelveengine.Log;
@@ -24,6 +26,7 @@ public class RigidBody extends Physical {
 		setLocation(l);
 		setRotation(r);
 		setVelocity(v);
+		contrain();
 	}
 	
 	//Creates and adds this actors physics object to the bullet physics method.
@@ -32,6 +35,7 @@ public class RigidBody extends Physical {
 		ParentedShape[] shps = buildCollisionShape(pt);
 		physics = new BulletRigidBody[shps.length];
 		while(i < shps.length) {
+			TagSubObject cob = pt.getObject(i);
 			Transform startTransform = new Transform();
 			startTransform.setIdentity();
 			startTransform.origin.set(0, 0, 0f);
@@ -41,7 +45,45 @@ public class RigidBody extends Physical {
 			physics[i].boneOffset = fr.location.copy();
 			physics[i].boneOrientation = fr.rotation.copy();
 			//Log.log("P/c " + fr.name + "/" + physics[i].parent + " loc/rot " + MathUtil.toString(physics[i].boneOffset) + "/" + MathUtil.toString(physics[i].boneOrientation), "Physics");
+			physics[i].setLocation(new Vertex());
+			physics[i].setRotation(new Quat());
 			physics[i].setOwner(this);
+			physics[i].tag = cob;
+			i++;
+		}
+	}
+	
+	public void contrain() {
+		int i = 0;
+		while(i < physics.length) {
+			//Now we apply constraints if they are defined in the tag!
+			if(!physics[i].tag.getProperty("constraint", "none").equals("none")) {
+				TagSubObject limits = physics[i].tag.getObject("limits");
+				BulletRigidBody parent = getBRBody(limits.getProperty("parent", "null"));
+				if(parent != null) {
+					Transform tfma = new Transform();
+					Transform tfmb = new Transform();
+					tfma = parent.getCenterOfMassTransform(tfma);
+					tfmb = physics[i].getCenterOfMassTransform(tfmb);
+					//tfma.inverse(tfma);
+					//tfma.inverse(tfmb);
+					//Generic6DofConstraint constraint = new Generic6DofConstraint(parent, physics[i], tfma, tfmb, true);
+					//HingeConstraint constraint = new HingeConstraint(physics[i], new Vector3f(-5,-200,-30), new Vector3f(0,1,0));
+					//ConeTwistConstraint constraint = new com.bulletphysics.dynamics.constraintsolver.ConeTwistConstraint(rbA, rbAFrame);
+					Point2PointConstraint constraint = new Point2PointConstraint(physics[i], parent, new Vector3f(0,0,-1), new Vector3f(0,0,-1));
+					/*Vector3f tmp = new Vector3f(-BulletGlobals.SIMD_PI * 0.3f, -BulletGlobals.FLT_EPSILON, -BulletGlobals.SIMD_PI * 0.3f);
+					constraint.setAngularLowerLimit(tmp);
+					tmp = new Vector3f(BulletGlobals.SIMD_PI * 0.5f, BulletGlobals.FLT_EPSILON, BulletGlobals.SIMD_PI * 0.3f);
+					constraint.setAngularUpperLimit(tmp);
+					constraint.setLinearLowerLimit(new Vector3f(-1,-1,-1));
+					constraint.setLinearUpperLimit(new Vector3f(1,1,1));*/
+					game.bsp.bullet.getDynamicsWorld().addConstraint(constraint, true);
+					Log.log("Failed to constrain physics object: " + physics[i].tag.getProperty("parent", "null") + "+" + parent.parent + " in tag: " + tag.file, "Physics", 2);
+				}
+				else {
+					Log.log("Failed to constrain physics object: " + physics[i].tag.getProperty("parent", "null") + " in tag: " + tag.file, "Physics", 2);
+				}
+			}
 			i++;
 		}
 	}
@@ -78,18 +120,17 @@ public class RigidBody extends Physical {
 		return model.models[0].fr[0];
 	}
 	
-	public void draw(ArrayList<TrianglePacket> meshes, float f) {	
-		Vertex l = MathUtil.lerp(lastLocation, location, f);
-		Quat r = rotation;
-		if(animate && frame != null && lastFrame != null) //TODO: really nesscary to check all this?
-			model.pushToDrawQueue(meshes, l, new Quat(0,0,0,1), MathUtil.interpolateFrame(lastFrame, frame, f), scale);
-		else
-			model.pushToDrawQueue(meshes, l, new Quat(0,0,0,1), scale);
+	public BulletRigidBody getBRBody(String n) {
 		int i = 0;
-		while(i < effects.size()) {
-			effects.get(i).draw(meshes, f);
+		while(i < physics.length) {
+			if(physics[i] == null) {
+				return null;
+			}
+			if(physics[i].parent.equals(n)) {
+				return physics[i];
+			}
 			i++;
 		}
+		return null;
 	}
-	
 }
