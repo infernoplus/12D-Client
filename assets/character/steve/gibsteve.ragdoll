@@ -41,13 +41,13 @@ object collision {
 		
 		property shape box;
 		property mass 1;
-		property width 0.5;
-		property length 0.5;
-		property height 0.5;
+		property width 0.8;
+		property length 0.8;
+		property height 0.8;
 		object offset {
 			property x 0;
 			property y 0;
-			property z 0.25;
+			property z 0.4;
 		}
 		object location {
 			property x 0;
@@ -61,11 +61,7 @@ object collision {
 			property w 0;
 		}
 		
-		property constraint 6dof;
-		object limits {
-			property parent "frame spine";
-			property collide false;
-		}
+		property constraint none;
 	}
 	object 2 {
 		property parent "frame right arm";
@@ -74,12 +70,12 @@ object collision {
 		
 		property shape box;
 		property mass 1;
-		property width 0.3;
-		property length 1.0;
-		property height 0.3;
+		property width 0.5;
+		property length 1.7;
+		property height 0.5;
 		object offset {
 			property x 0;
-			property y 0.5;
+			property y 0.85;
 			property z 0;
 		}
 		object location {
@@ -94,11 +90,7 @@ object collision {
 			property w 0;
 		}
 		
-		property constraint 6dof;
-		object limits {
-			property parent "frame spine";
-			property collide false;
-		}
+		property constraint none;
 	}
 	object 3 {
 		property parent "frame left arm";
@@ -107,12 +99,12 @@ object collision {
 		
 		property shape box;
 		property mass 1;
-		property width 0.3;
-		property length 1.0;
-		property height 0.3;
+		property width 0.5;
+		property length 1.7;
+		property height 0.5;
 		object offset {
 			property x 0;
-			property y -0.5;
+			property y -0.85;
 			property z 0;
 		}
 		object location {
@@ -127,11 +119,7 @@ object collision {
 			property w 0;
 		}
 		
-		property constraint 6dof;
-		object limits {
-			property parent "frame spine";
-			property collide false;
-		}
+		property constraint none;
 	}
 	object 4 {
 		property parent "frame right leg";
@@ -140,13 +128,13 @@ object collision {
 		
 		property shape box;
 		property mass 1;
-		property width 0.3;
-		property length 0.3;
-		property height 1.0;
+		property width 0.5;
+		property length 0.5;
+		property height 1.7;
 		object offset {
 			property x 0;
 			property y 0;
-			property z -0.5;
+			property z 0;
 		}
 		object location {
 			property x 0;
@@ -160,11 +148,7 @@ object collision {
 			property w 0;
 		}
 		
-		property constraint 6dof;
-		object limits {
-			property parent "frame spine";
-			property collide false;
-		}
+		property constraint none;
 	}
 	object 5 {
 		property parent "frame left leg";
@@ -173,13 +157,13 @@ object collision {
 		
 		property shape box;
 		property mass 1;
-		property width 0.3;
-		property length 0.3;
-		property height 1.0;
+		property width 0.5;
+		property length 0.5;
+		property height 1.7;
 		object offset {
 			property x 0;
 			property y 0;
-			property z -0.5;
+			property z -0.85;
 		}
 		object location {
 			property x 0;
@@ -193,11 +177,7 @@ object collision {
 			property w 0;
 		}
 		
-		property constraint 6dof;
-		object limits {
-			property parent "frame spine";
-			property collide false;
-		}
+		property constraint none;
 	}
 }
 

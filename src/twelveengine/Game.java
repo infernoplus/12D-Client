@@ -81,9 +81,9 @@ public class Game {
 		Actor a = createTag("character/steve/steve.ragdoll", 5, new Vertex(0,200, 25), new Vertex(0,0,0), new Quat(0,0,0,1));
 		addActor(a);
 		
-		Actor c  = createTag("scenery/box/box.rigidbody", -1, new Vertex(15,225,30), new Vertex(), new Quat());
+		Actor c  = createTag("scenery/box/box.rigidbody", 2, new Vertex(15,225,30), new Vertex(), new Quat());
 		addActor(c);
-		Actor d  = createTag("scenery/box/box.rigidbody", -1, new Vertex(15,225,30), new Vertex(), new Quat());
+		Actor d  = createTag("scenery/box/box.rigidbody", 3, new Vertex(15,225,30), new Vertex(), new Quat());
 		addActor(d);
 		
 		Point2PointConstraint constraint = new Point2PointConstraint(((Physical)(c)).physics[0], ((Physical)(d)).physics[0], new Vector3f(5,5,5), new Vector3f(5,5,5));

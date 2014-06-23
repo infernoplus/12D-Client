@@ -1,0 +1,13 @@
+		property constraint hinge;
+		object limits {
+			property parent "frame spine";
+			property collide true;
+			property lower 0;
+			property upper 1;
+		}
+		
+		property constraint point;
+		object limits {
+			property parent "frame spine";
+			property collide true;
+		}

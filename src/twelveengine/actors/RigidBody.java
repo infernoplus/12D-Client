@@ -57,28 +57,79 @@ public class RigidBody extends Physical {
 		int i = 0;
 		while(i < physics.length) {
 			//Now we apply constraints if they are defined in the tag!
-			if(!physics[i].tag.getProperty("constraint", "none").equals("none")) {
-				TagSubObject limits = physics[i].tag.getObject("limits");
-				BulletRigidBody parent = getBRBody(limits.getProperty("parent", "null"));
+			String type = physics[i].tag.getProperty("constraint", "none");
+			if(!type.equals("none")) {
+				TagSubObject lmts = physics[i].tag.getObject("limits");
+				BulletRigidBody parent = getBRBody(lmts.getProperty("parent", "null"));
 				if(parent != null) {
-					Transform tfma = new Transform();
-					Transform tfmb = new Transform();
-					tfma = parent.getCenterOfMassTransform(tfma);
-					tfmb = physics[i].getCenterOfMassTransform(tfmb);
-					//tfma.inverse(tfma);
-					//tfma.inverse(tfmb);
-					//Generic6DofConstraint constraint = new Generic6DofConstraint(parent, physics[i], tfma, tfmb, true);
-					//HingeConstraint constraint = new HingeConstraint(physics[i], new Vector3f(-5,-200,-30), new Vector3f(0,1,0));
-					//ConeTwistConstraint constraint = new com.bulletphysics.dynamics.constraintsolver.ConeTwistConstraint(rbA, rbAFrame);
-					Point2PointConstraint constraint = new Point2PointConstraint(physics[i], parent, new Vector3f(0,0,-1), new Vector3f(0,0,-1));
-					/*Vector3f tmp = new Vector3f(-BulletGlobals.SIMD_PI * 0.3f, -BulletGlobals.FLT_EPSILON, -BulletGlobals.SIMD_PI * 0.3f);
-					constraint.setAngularLowerLimit(tmp);
-					tmp = new Vector3f(BulletGlobals.SIMD_PI * 0.5f, BulletGlobals.FLT_EPSILON, BulletGlobals.SIMD_PI * 0.3f);
-					constraint.setAngularUpperLimit(tmp);
-					constraint.setLinearLowerLimit(new Vector3f(-1,-1,-1));
-					constraint.setLinearUpperLimit(new Vector3f(1,1,1));*/
-					game.bsp.bullet.getDynamicsWorld().addConstraint(constraint, true);
-					Log.log("Failed to constrain physics object: " + physics[i].tag.getProperty("parent", "null") + "+" + parent.parent + " in tag: " + tag.file, "Physics", 2);
+					if(type.equals("point")) {
+						//Collect data from tags
+						boolean collide = lmts.getProperty("collide", false);
+						Point2PointConstraint constraint = new Point2PointConstraint(physics[i], parent, new Vector3f(0,0,-1), new Vector3f(0,0,-1));
+						game.bsp.bullet.getDynamicsWorld().addConstraint(constraint, collide);
+					}
+					else if(type.equals("hinge")) { //TODO: correct hinge joints, the vars tfma and tfmb are handled wrong. 6dof does it right. fix pls bb.
+						//Collect data from tags
+						TagSubObject transform = lmts.getObject("transform");
+						boolean collide = lmts.getProperty("collide", false);
+						
+						//Create transforms
+						Transform tfma = new Transform(); tfma.setIdentity();
+						Transform tfmb = new Transform(); tfmb.setIdentity();
+						
+						//Set transform A
+						tfma.origin.set(MathUtil.bConvert(TagUtil.makeVertex(transform.getObject("location"))));
+						tfma.setRotation(MathUtil.bConvert(TagUtil.makeQuat(transform.getObject("rotation"))));
+						
+						//Set Transform B. Org become the position that the child object is attached at.
+						Vertex org = MathUtil.subtract(parent.boneOffset, physics[i].boneOffset);
+						org = MathUtil.add(org, MathUtil.subtract(parent.centerOffset, physics[i].centerOffset));
+						org = MathUtil.inverse(org);
+						tfmb.origin.set(MathUtil.bConvert(org));
+						tfmb.setRotation(MathUtil.bConvert(physics[i].boneOrientation));
+						
+						//Finish Constraint.
+						HingeConstraint constraint = new HingeConstraint(physics[i], parent, tfma, tfmb);
+						float lower = lmts.getProperty("lower", 0.0f);
+						float upper = lmts.getProperty("upper", 1.0f);
+						constraint.setLimit(lower, upper);
+						game.bsp.bullet.getDynamicsWorld().addConstraint(constraint, collide);
+					}
+					else if(type.equals("cone")) {
+						//TODO:
+					}
+					else if(type.equals("6dof")) {
+						//Collect data from tags
+						TagSubObject transform = lmts.getObject("transform");
+						boolean collide = !lmts.getProperty("collide", false);
+						
+						//Create transforms
+						Transform tfma = new Transform(); tfma.setIdentity();
+						Transform tfmb = new Transform(); tfmb.setIdentity();
+						
+						//Set transform A
+						//tfma.origin.set(MathUtil.bConvert(TagUtil.makeVertex(transform.getObject("location"))));
+						//tfma.setRotation(MathUtil.bConvert(TagUtil.makeQuat(transform.getObject("rotation"))));
+						
+						//Set transform A
+						Vertex off = MathUtil.subtract(parent.centerOffset, physics[i].centerOffset);
+						tfma.origin.set(MathUtil.bConvert(off));
+						tfma.setRotation(MathUtil.bConvert(physics[i].boneOrientation));
+						
+						//Set Transform B. Org become the position that the child object is attached at.
+						Vertex org = MathUtil.subtract(parent.boneOffset, physics[i].boneOffset);
+						//org = MathUtil.add(org, MathUtil.subtract(parent.centerOffset, physics[i].centerOffset));
+						org = MathUtil.inverse(org);
+						tfmb.origin.set(MathUtil.bConvert(org));
+						tfmb.setRotation(MathUtil.bConvert(physics[i].boneOrientation));
+						
+						//Finish Constraint.
+						Generic6DofConstraint constraint = new Generic6DofConstraint(physics[i], parent, tfma, tfmb, true);
+						game.bsp.bullet.getDynamicsWorld().addConstraint(constraint, collide);
+					}
+					else {
+						Log.log("Failed to constrain physics object: " + physics[i].tag.getProperty("parent", "null") + " in tag: " + tag.file, "Physics", 2);
+					}
 				}
 				else {
 					Log.log("Failed to constrain physics object: " + physics[i].tag.getProperty("parent", "null") + " in tag: " + tag.file, "Physics", 2);
